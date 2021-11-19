@@ -1,6 +1,7 @@
-package com.xbidi.spring.config;
+package com.xbidi.spring.config.async;
 
 import com.xbidi.spring.content.shared.output.ErrorResponse;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.aop.interceptor.AsyncUncaughtExceptionHandler;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -39,7 +40,7 @@ public class AsyncConfigurerImpl implements AsyncConfigurer, AsyncUncaughtExcept
   }
 
   @Override
-  public void handleUncaughtException(Throwable throwable, Method method, Object... objects) {
+  public void handleUncaughtException(@NotNull Throwable throwable, @NotNull Method method,@NotNull  Object... objects) {
     processException(throwable);
   }
 

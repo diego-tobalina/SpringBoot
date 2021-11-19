@@ -1,4 +1,4 @@
-package com.xbidi.spring.config.multitenant;
+package com.xbidi.spring.config.multitenant.domain;
 
 import com.xbidi.spring.content.shared.Constants;
 import org.hibernate.context.spi.CurrentTenantIdentifierResolver;

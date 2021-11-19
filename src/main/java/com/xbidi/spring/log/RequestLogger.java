@@ -3,9 +3,9 @@ package com.xbidi.spring.log;
 import com.xbidi.spring.content.shared.Constants;
 import com.xbidi.spring.log.wrappers.BufferedRequestWrapper;
 import com.xbidi.spring.log.wrappers.BufferedResponseWrapper;
-import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.FilterChain;
@@ -19,14 +19,17 @@ import java.util.*;
 /** @author diegotobalina created on 14/08/2020 */
 @Slf4j
 @Component
-@AllArgsConstructor
 public class RequestLogger {
 
-  private final AsyncLogger asyncLogger;
+  @Value("{logger.path}")
+  public String logPath;
 
-  static String removeRowJumps(String string) {
-    if (StringUtils.isBlank(string)) return null;
-    return string.replace("\n", "").replace("\r", "");
+  private final AsyncLogger asyncLogger;
+  private static final boolean LOG_REQUEST_BODY = true;
+  private static final boolean LOG_RESPONSE_BODY = true;
+
+  public RequestLogger(AsyncLogger asyncLogger) {
+    this.asyncLogger = asyncLogger;
   }
 
   public void log(ServletRequest request, ServletResponse response, FilterChain chain) {
@@ -38,7 +41,7 @@ public class RequestLogger {
 
       // log request
       long requestMillis = System.currentTimeMillis(); // time before request processing
-      if (((HttpServletRequest) request).getRequestURI().contains("/api/"))
+      if (((HttpServletRequest) request).getRequestURI().contains(logPath))
         logRequest(bufferedRequest);
 
       // process request
@@ -47,7 +50,7 @@ public class RequestLogger {
       // log response
       long responseMillis = System.currentTimeMillis(); // time after request processing
       long totalRequestMillis = responseMillis - requestMillis; // total request processing time
-      if (((HttpServletRequest) request).getRequestURI().contains("/api/"))
+      if (((HttpServletRequest) request).getRequestURI().contains(logPath))
         logResponse(bufferedResponse, totalRequestMillis);
 
     } catch (Exception e) {
@@ -66,7 +69,9 @@ public class RequestLogger {
     asyncLogger.info(String.format(Constants.LOGS_REQUEST_METHOD, requestMethod));
     asyncLogger.info(String.format(Constants.LOGS_REQUEST_URL, requestUri));
     asyncLogger.info(String.format(Constants.LOGS_REQUEST_PARAMS, requestParams));
-    asyncLogger.info(String.format(Constants.LOGS_REQUEST_BODY, requestBody));
+    if (LOG_REQUEST_BODY) {
+      asyncLogger.info(String.format(Constants.LOGS_REQUEST_BODY, requestBody));
+    }
     asyncLogger.info(String.format(Constants.LOGS_REQUEST_HEADERS, requestHeaders));
   }
 
@@ -77,8 +82,15 @@ public class RequestLogger {
 
     asyncLogger.info(String.format(Constants.LOGS_RESPONSE_CODE, responseStatus));
     asyncLogger.info(String.format(Constants.LOGS_RESPONSE_HEADERS, responseHeaders));
-    asyncLogger.info(String.format(Constants.LOGS_RESPONSE_BODY, removeRowJumps(responseBody)));
+    if (LOG_RESPONSE_BODY) {
+      asyncLogger.info(String.format(Constants.LOGS_RESPONSE_BODY, removeRowJumps(responseBody)));
+    }
     asyncLogger.info(String.format(Constants.LOGS_TOTAL_REQUEST_TIME, totalRequestTime));
+  }
+
+  static String removeRowJumps(String string) {
+    if (StringUtils.isBlank(string)) return null;
+    return string.replace("\n", "").replace("\r", "");
   }
 
   private List<String> getHeaders(HttpServletRequest httpServletRequest) {

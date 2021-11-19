@@ -12,10 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Constraint;
-import javax.validation.ConstraintValidator;
-import javax.validation.ConstraintValidatorContext;
-import javax.validation.Valid;
+import javax.validation.*;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -45,7 +42,7 @@ public class ExampleUseCase {
   }
 
   @ResponseStatus(HttpStatus.NO_CONTENT) // TODO cambiar respuesta
-  @DeleteMapping("/example") // TODO cambiar url
+  @GetMapping("/example") // TODO cambiar url
   @Transactional(rollbackFor = Exception.class)
   public ExampleUseCaseOutputDTO useCase(@RequestBody @Valid ExampleUseCaseInputDTO inputDTO) {
     // TODO implement
@@ -75,5 +72,9 @@ public class ExampleUseCase {
   @Retention(RetentionPolicy.RUNTIME)
   @interface ExampleUseCaseInputDTOConstraint {
     String message() default Constants.ERROR_INPUT_DTO_FORMAT_NOT_VALID;
+
+    Class<?>[] groups() default {};
+
+    Class<? extends Payload>[] payload() default {};
   }
 }

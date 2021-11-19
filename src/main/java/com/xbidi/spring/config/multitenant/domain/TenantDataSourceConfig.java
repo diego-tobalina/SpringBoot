@@ -1,4 +1,4 @@
-package com.xbidi.spring.config.multitenant;
+package com.xbidi.spring.config.multitenant.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -14,7 +14,7 @@ import java.io.Serializable;
 @Table(name = "C_MULTITENANT_DATASOURCE")
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class DataSourceConfig implements Serializable {
+public class TenantDataSourceConfig implements Serializable {
 
   @Id private Long id;
   private String name;

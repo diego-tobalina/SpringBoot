@@ -63,7 +63,8 @@ public class ErrorResponse implements Serializable {
     return String.format("%s.%s", className, methodName);
   }
 
-  public void printMessage() {
+  public ErrorResponse printMessage() {
     log.warn(String.format("Exception handled: %s", getMessageString()));
+    return this;
   }
 }

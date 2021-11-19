@@ -1,4 +1,4 @@
-package com.xbidi.spring.content.shared;
+package com.xbidi.spring.config.auditable;
 
 import lombok.Getter;
 import lombok.Setter;

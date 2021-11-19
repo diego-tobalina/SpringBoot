@@ -14,14 +14,14 @@ import java.lang.annotation.Target;
   @ApiImplicitParam(
       name = "page",
       required = true,
-      defaultValue = "0",
+      example = "0",
       dataTypeClass = Integer.class,
       paramType = "query",
       value = "Results page you want to retrieve (0..N)"),
   @ApiImplicitParam(
       name = "size",
       required = true,
-      defaultValue = "10",
+      example = "10",
       dataTypeClass = Integer.class,
       paramType = "query",
       value = "Number of records per page."),

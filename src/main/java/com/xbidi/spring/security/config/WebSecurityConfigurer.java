@@ -24,6 +24,7 @@ import java.io.IOException;
 public class WebSecurityConfigurer extends WebSecurityConfigurerAdapter {
 
   private final AuthenticationFilter authenticationFilter;
+  private static final String SECURED_REGEX = "/api/**";
 
   @Override
   protected void configure(HttpSecurity http) throws Exception {
@@ -33,7 +34,7 @@ public class WebSecurityConfigurer extends WebSecurityConfigurerAdapter {
     http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
     http.exceptionHandling().authenticationEntryPoint(this::unauthorized);
 
-    http.antMatcher("/api/**")
+    http.antMatcher(SECURED_REGEX)
         .authorizeRequests()
         .anyRequest()
         .authenticated()
@@ -44,8 +45,8 @@ public class WebSecurityConfigurer extends WebSecurityConfigurerAdapter {
   private void unauthorized(
       HttpServletRequest req, HttpServletResponse res, AuthenticationException e)
       throws IOException {
-    var errorResponse = new ErrorResponse(e, 401);
-    errorResponse.printMessage();
-    new PowerResponse(res).sendJson(errorResponse, HttpStatus.UNAUTHORIZED.value());
+    int unauthorizedStatus = HttpStatus.UNAUTHORIZED.value();
+    ErrorResponse errorResponse = new ErrorResponse(e, unauthorizedStatus).printMessage();
+    new PowerResponse(res).sendJson(errorResponse, unauthorizedStatus);
   }
 }

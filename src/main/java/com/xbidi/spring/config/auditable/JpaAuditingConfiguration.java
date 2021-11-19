@@ -1,4 +1,4 @@
-package com.xbidi.spring.config;
+package com.xbidi.spring.config.auditable;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

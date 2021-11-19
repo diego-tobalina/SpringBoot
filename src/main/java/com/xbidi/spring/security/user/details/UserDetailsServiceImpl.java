@@ -6,7 +6,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /** @author diegotobalina created on 24/06/2020 */
 @Slf4j
@@ -20,11 +19,14 @@ public class UserDetailsServiceImpl implements UserDetailsService {
    */
   @Override
   public AuthenticationImpl getByToken(String token) {
-    var email = "dev@spring.com";
-    var userId = "USU00001_DEV";
-    List<String> roles = new ArrayList<>();
-    List<String> credentials = new ArrayList<>();
-    List<String> tenants = new ArrayList<>();
-    return new AuthenticationImpl(email, credentials, roles, tenants, null, email, userId, token);
+    return new AuthenticationImpl(
+        "anonymous@gmail.com",
+        new ArrayList<>(),
+        new ArrayList<>(),
+        new ArrayList<>(),
+        null,
+        "anonymous@gmail.com",
+        "anonymous",
+        token);
   }
 }

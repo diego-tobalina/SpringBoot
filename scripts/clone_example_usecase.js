@@ -24,10 +24,10 @@ const testsDir = `${currentDir}/src/test/java/${basePackage}/content/usecase`;
 const testsDestinationDir = `${currentDir}/src/test/java/${basePackage}/content/usecase/`;
 
 // copia los ficheros originales al nuevo directorio
-copyFiles(filesDir, filesDestinationDir).then(r => {/**/
+copyFiles(filesDir, filesDestinationDir).then(() => {/**/
 });
 
-copyFiles(testsDir, testsDestinationDir).then(r => {/**/
+copyFiles(testsDir, testsDestinationDir).then(() => {/**/
 });
 
 function replaceUseCaseNames(string) {

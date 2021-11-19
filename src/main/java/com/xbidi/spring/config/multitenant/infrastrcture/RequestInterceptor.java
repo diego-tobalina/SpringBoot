@@ -1,5 +1,6 @@
-package com.xbidi.spring.config.multitenant;
+package com.xbidi.spring.config.multitenant.infrastrcture;
 
+import com.xbidi.spring.config.multitenant.domain.TenantContext;
 import com.xbidi.spring.content.shared.Constants;
 import com.xbidi.spring.exception.exception.ForbiddenTenantException;
 import com.xbidi.spring.security.authentication.AuthenticationImpl;

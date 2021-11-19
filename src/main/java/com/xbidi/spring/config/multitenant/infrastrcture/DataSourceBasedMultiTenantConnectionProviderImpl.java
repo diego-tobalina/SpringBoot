@@ -1,5 +1,6 @@
-package com.xbidi.spring.config.multitenant;
+package com.xbidi.spring.config.multitenant.infrastrcture;
 
+import com.xbidi.spring.config.multitenant.domain.TenantDataSource;
 import com.xbidi.spring.content.shared.Constants;
 import org.hibernate.engine.jdbc.connections.spi.AbstractDataSourceBasedMultiTenantConnectionProviderImpl;
 import org.springframework.context.ApplicationContext;

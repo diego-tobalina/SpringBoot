@@ -2,7 +2,7 @@
 
 package com.xbidi.spring.content.example.domain;
 
-import com.xbidi.spring.content.shared.Auditable;
+import com.xbidi.spring.config.auditable.Auditable;
 import com.xbidi.spring.content.shared.interfaces.domain.Updatable;
 import com.xbidi.spring.content.shared.interfaces.domain.Valid;
 import lombok.*;
@@ -21,7 +21,6 @@ import javax.persistence.*;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode(callSuper = true)
 @Table(name = "O_MSTR_EXAMPLE")
 @EntityListeners({ExampleListener.class})
 @FilterDef(

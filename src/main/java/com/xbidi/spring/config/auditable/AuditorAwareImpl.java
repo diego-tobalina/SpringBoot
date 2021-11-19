@@ -1,7 +1,8 @@
-package com.xbidi.spring.config;
+package com.xbidi.spring.config.auditable;
 
 import com.xbidi.spring.content.shared.Constants;
 import com.xbidi.spring.security.authentication.AuthenticationImpl;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.data.domain.AuditorAware;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -10,6 +11,7 @@ import java.util.Optional;
 
 public class AuditorAwareImpl implements AuditorAware<String> {
 
+  @NotNull
   @Override
   public Optional<String> getCurrentAuditor() {
     if (!isAuthenticated()) return Optional.of(Constants.ANONYMOUS_USER);

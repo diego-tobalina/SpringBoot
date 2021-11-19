@@ -1,4 +1,4 @@
-package com.xbidi.spring.config.multitenant;
+package com.xbidi.spring.config.multitenant.domain;
 
 public abstract class TenantContext {
   private static final ThreadLocal<String> currentTenant = new InheritableThreadLocal<>();

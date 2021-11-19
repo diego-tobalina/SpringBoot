@@ -150,7 +150,15 @@ Guia de los modificadores
 ``````
 Para añadir una entidad 1:N se utilizarán como ejemplo las entidades Company y Department
 
-1. Lanzar el script de ejemplo init.sh
+1. Lanzar el script de ejemplo:
+
+node scritps/clone_example.js Company String name String description
+node scritps/clone_example.js Department String name String description
+node scritps/clone_example.js Employee String name String surname String office String businessEmail Integer age Boolean active Double salary Double hourlyRate
+node scritps/clone_example.js Material String name String description String location
+node scritps/clone_example_usecase.js AddDepartmentToCompanyUseCase
+node scritps/clone_example_usecase.js RemoveDepartmentFromCompanyUseCase
+
 2. Añadir a la clase "Company" el siguiente código:
 
   @JsonManagedReference
@@ -249,13 +257,13 @@ una plantilla
 ``````
 Ajemplos para lanzar el script y generar nuevos casos de uso
 
-node helper_usecase.js AddDepartmentToCompanyUseCase
-node helper_usecase.js RemoveDepartmentFromCompanyUseCase
+node clone_example_usecase.js AddDepartmentToCompanyUseCase
+node clone_example_usecase.js RemoveDepartmentFromCompanyUseCase
 ``````
 
 ## 🔍 Personalizar las plantillas
 
-Esta aplicación se base en plantillas para generar nuevo código mediante los scripts "helper.js"
+Esta aplicación se base en plantillas para generar nuevo código mediante los scripts "clone_example.js"
 
 Se pueden personalizar antes de lanzarse
 
@@ -277,12 +285,9 @@ com.xbidi.spring.content.usecase.exampleusecase
 ## 🚀 Desplegar en docker
 
 ``````
-
-1. Modificar el fichero "init.sh" con las entidades
-2. Compilar el proyecto con: mvn clean package
-3. Generar la imagen de docker: docker compose build
-4. Levantar la aplicación: docker compose up -d
-
+1. Compilar el proyecto con: mvn clean package
+2. Generar la imagen de docker: docker compose build
+3. Levantar la aplicación: docker compose up -d
 ``````
 
 ### ⚠️ Beware of forks. I do not give any guarantee that the fork may turn out to be a scam.

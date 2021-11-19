@@ -1,4 +1,4 @@
-package com.xbidi.spring.config;
+package com.xbidi.spring.config.async;
 
 import com.xbidi.spring.content.shared.output.ErrorResponse;
 import org.springframework.context.annotation.Configuration;

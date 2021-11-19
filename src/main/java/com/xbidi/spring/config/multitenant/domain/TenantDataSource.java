@@ -1,5 +1,6 @@
-package com.xbidi.spring.config.multitenant;
+package com.xbidi.spring.config.multitenant.domain;
 
+import com.xbidi.spring.config.multitenant.infrastrcture.DataSourceConfigRepository;
 import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.stereotype.Component;
 
@@ -34,9 +35,9 @@ public class TenantDataSource implements Serializable {
 
   @PostConstruct
   public Map<String, DataSource> getAll() {
-    List<DataSourceConfig> configList = configRepo.findAll();
+    List<TenantDataSourceConfig> configList = configRepo.findAll();
     Map<String, DataSource> result = new HashMap<>();
-    for (DataSourceConfig config : configList) {
+    for (TenantDataSourceConfig config : configList) {
       DataSource dataSource = getDataSource(config.getName());
       result.put(config.getName(), dataSource);
     }
@@ -44,7 +45,7 @@ public class TenantDataSource implements Serializable {
   }
 
   private DataSource createDataSource(String name) {
-    DataSourceConfig config = configRepo.findByNameAndActive(name, true);
+    TenantDataSourceConfig config = configRepo.findByNameAndActive(name, true);
     if (config != null) {
       DataSourceBuilder<?> factory =
           DataSourceBuilder.create()

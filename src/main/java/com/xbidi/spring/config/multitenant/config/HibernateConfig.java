@@ -1,4 +1,4 @@
-package com.xbidi.spring.config.multitenant;
+package com.xbidi.spring.config.multitenant.config;
 
 import org.hibernate.MultiTenancyStrategy;
 import org.hibernate.context.spi.CurrentTenantIdentifierResolver;
@@ -19,7 +19,8 @@ import static org.hibernate.cfg.AvailableSettings.*;
 
 @Configuration
 public class HibernateConfig {
-  @Value("{spring.jpa.hibernate.ddl-auto}")
+
+  @Value("${spring.jpa.hibernate.ddl-auto}")
   public String hibernateDdlAuto;
 
   private final JpaProperties jpaProperties;

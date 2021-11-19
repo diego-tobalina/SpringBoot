@@ -16,6 +16,7 @@ import static com.xbidi.spring.content.shared.Constants.AUTHORIZATION_HEADER;
 public class AuthenticationManager {
 
   private final UserDetailsService userDetailsService;
+  private static final String SPRING_SECURITY_CONTEXT = "SPRING_SECURITY_CONTEXT";
 
   public AuthenticationManager(UserDetailsService userDetailsService) {
     this.userDetailsService = userDetailsService;
@@ -42,7 +43,7 @@ public class AuthenticationManager {
 
     // Create a new session and add the security context.
     HttpSession session = req.getSession(true);
-    session.setAttribute("SPRING_SECURITY_CONTEXT", securityContext);
+    session.setAttribute(SPRING_SECURITY_CONTEXT, securityContext);
   }
 
   public Authentication getAuthenticated() {
