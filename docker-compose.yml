@@ -1,0 +1,62 @@
+version: '2'
+services:
+
+  pgadmin:
+    container_name: pgadmin
+    image: dpage/pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: pgadmin@bosonit.com
+      PGADMIN_DEFAULT_PASSWORD: password
+      PGADMIN_CONFIG_SERVER_MODE: 'False'
+    volumes:
+      - pgadmin:/root/.pgadmin
+    ports:
+      - "80:80"
+    networks:
+      - database
+    restart: unless-stopped
+    depends_on:
+      - postgres
+  postgres:
+    container_name: postgres
+    image: postgres
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U postgres" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgreData:/var/lib/postgresql/data
+    networks:
+      - app
+      - database
+    environment:
+      POSTGRES_DB: database
+      POSTGRES_PASSWORD: password
+  spring:
+    container_name: spring
+    image: spring
+    healthcheck:
+      test: "curl --fail --silent localhost:8080/actuator/health | grep UP || exit 1"
+      interval: 20s
+      timeout: 5s
+      retries: 5
+    build:
+      context: ""
+      dockerfile: ./Dockerfile
+    ports:
+      - "8080:8080"
+    networks:
+      - app
+    depends_on:
+      - postgres
+    environment:
+      DATABASE_URL: jdbc:postgresql://postgres:5432/postgres
+volumes:
+  postgreData:
+  pgadmin:
+networks:
+  app:
+  database:
