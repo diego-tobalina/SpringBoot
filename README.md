@@ -70,7 +70,7 @@ Cada nuevo tenant será una base de datos diferente pero siempre se utilizará e
 
 Para generar un nuevo tenant seguir los siguientes pasos:
 1. Crear una nueva base de datos
-2. Lanzar una instancia de la aplicación contra la base de datos para que genere las tablas iniciales
+2. Lanzar una instancia de la aplicación contra la base de datos para que genere las tablas iniciales (** NO HACER ESTAS MIGRACIONES EN PRODUCCIÓN)
 3. Añadir a la tabla "c_multitenant_datasource" del cluster principal una fila con los datos de la conexión
 4. Reiniciar la aplicación del cluster principal para que cargue los nuevos tenant
 
@@ -78,6 +78,8 @@ Para poder seleccionar al tenant al que quieres acceder en cada petición se nec
 El valor de la cabecera tiene que coincidir con el nombre de uno existente en la tabla "c_multitenant_datasource"
 En el caso de que el usuario realice una petición contra un tenant que no exista o no tenga permisos recibirá un código 403
 La lista de tenants a los que un usuario tiene acceso se cargan en el proceso de autenticación, en la clase "UserDetailsServiceImpl"
+
+** En producción modificar la propiedad "spring.jpa.hibernate.ddl-auto=update" y realizar las migraciones de las bases de datos de otra forma
 ``````
 
 ## 🔐 Autenticación
