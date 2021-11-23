@@ -1,6 +1,5 @@
 package com.xbidi.spring.config.multitenant.infrastrcture;
 
-import com.xbidi.spring.config.multitenant.domain.TenantDataSource;
 import com.xbidi.spring.content.shared.Constants;
 import org.hibernate.engine.jdbc.connections.spi.AbstractDataSourceBasedMultiTenantConnectionProviderImpl;
 import org.springframework.context.ApplicationContext;
@@ -40,8 +39,8 @@ public class DataSourceBasedMultiTenantConnectionProviderImpl
   protected DataSource selectDataSource(String tenantIdentifier) {
     if (!init) {
       init = true;
-      TenantDataSource tenantDataSource = context.getBean(TenantDataSource.class);
-      map.putAll(tenantDataSource.getAll());
+      TenantRepository tenantRepository = context.getBean(TenantRepository.class);
+      map.putAll(tenantRepository.getAll());
     }
     return map.get(tenantIdentifier) != null
         ? map.get(tenantIdentifier)

@@ -1,5 +1,6 @@
-package com.xbidi.spring.config.multitenant.domain;
+package com.xbidi.spring.config.multitenant.infrastrcture;
 
+import com.xbidi.spring.config.multitenant.domain.TenantDataSourceConfig;
 import com.xbidi.spring.config.multitenant.infrastrcture.DataSourceConfigRepository;
 import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.stereotype.Component;
@@ -12,13 +13,13 @@ import java.util.List;
 import java.util.Map;
 
 @Component
-public class TenantDataSource implements Serializable {
+public class TenantRepository implements Serializable {
 
   private final transient HashMap<String, DataSource> dataSources = new HashMap<>();
 
   private final transient DataSourceConfigRepository configRepo;
 
-  public TenantDataSource(DataSourceConfigRepository configRepo) {
+  public TenantRepository(DataSourceConfigRepository configRepo) {
     this.configRepo = configRepo;
   }
 
