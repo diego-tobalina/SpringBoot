@@ -21,7 +21,7 @@ import java.util.*;
 @Component
 public class RequestLogger {
 
-  @Value("{logger.path}")
+  @Value("${logger.path}")
   public String logPath;
 
   private final AsyncLogger asyncLogger;
@@ -40,52 +40,61 @@ public class RequestLogger {
       var bufferedResponse = new BufferedResponseWrapper(httpServletResponse);
 
       // log request
+      String requestLog = null;
       long requestMillis = System.currentTimeMillis(); // time before request processing
       if (((HttpServletRequest) request).getRequestURI().contains(logPath))
-        logRequest(bufferedRequest);
+        requestLog = logRequest(bufferedRequest);
 
       // process request
       chain.doFilter(bufferedRequest, bufferedResponse);
 
       // log response
+      String responseLog = null;
       long responseMillis = System.currentTimeMillis(); // time after request processing
       long totalRequestMillis = responseMillis - requestMillis; // total request processing time
       if (((HttpServletRequest) request).getRequestURI().contains(logPath))
-        logResponse(bufferedResponse, totalRequestMillis);
+        responseLog = logResponse(bufferedResponse, totalRequestMillis);
+
+      if (requestLog != null && responseLog != null) {
+        String log = String.format("%s%s", requestLog, responseLog);
+        asyncLogger.info(log);
+      }
 
     } catch (Exception e) {
       e.printStackTrace();
     }
   }
 
-  public void logRequest(BufferedRequestWrapper bufferedRequest) throws IOException {
+  public String logRequest(BufferedRequestWrapper bufferedRequest) throws IOException {
     String requestMethod = removeRowJumps(bufferedRequest.getMethod());
     String requestUri = removeRowJumps(bufferedRequest.getRequestURI());
     Map<String, String> requestMap = this.getParameters(bufferedRequest);
     String requestParams = removeRowJumps(requestMap.toString());
-    String requestBody = removeRowJumps(bufferedRequest.getRequestBody());
     String requestHeaders = removeRowJumps(getHeaders(bufferedRequest).toString());
-
-    asyncLogger.info(String.format(Constants.LOGS_REQUEST_METHOD, requestMethod));
-    asyncLogger.info(String.format(Constants.LOGS_REQUEST_URL, requestUri));
-    asyncLogger.info(String.format(Constants.LOGS_REQUEST_PARAMS, requestParams));
+    StringBuilder stringBuilder = new StringBuilder();
+    stringBuilder.append(String.format("\n" + Constants.LOGS_REQUEST_METHOD, requestMethod));
+    stringBuilder.append(String.format("\n" + Constants.LOGS_REQUEST_URL, requestUri));
+    stringBuilder.append(String.format("\n" + Constants.LOGS_REQUEST_PARAMS, requestParams));
     if (LOG_REQUEST_BODY) {
-      asyncLogger.info(String.format(Constants.LOGS_REQUEST_BODY, requestBody));
+      String requestBody = removeRowJumps(bufferedRequest.getRequestBody());
+      stringBuilder.append(String.format("\n" + Constants.LOGS_REQUEST_BODY, requestBody));
     }
-    asyncLogger.info(String.format(Constants.LOGS_REQUEST_HEADERS, requestHeaders));
+    stringBuilder.append(String.format("\n" + Constants.LOGS_REQUEST_HEADERS, requestHeaders));
+    return stringBuilder.toString();
   }
 
-  public void logResponse(BufferedResponseWrapper bufferedResponse, long totalRequestTime) {
+  public String logResponse(BufferedResponseWrapper bufferedResponse, long totalRequestTime) {
     int responseStatus = bufferedResponse.getStatus();
     String responseHeaders = removeRowJumps(getHeaders(bufferedResponse).toString());
-    String responseBody = bufferedResponse.getContent();
-
-    asyncLogger.info(String.format(Constants.LOGS_RESPONSE_CODE, responseStatus));
-    asyncLogger.info(String.format(Constants.LOGS_RESPONSE_HEADERS, responseHeaders));
+    StringBuilder stringBuilder = new StringBuilder();
+    stringBuilder.append(String.format("\n" + Constants.LOGS_RESPONSE_CODE, responseStatus));
+    stringBuilder.append(String.format("\n" + Constants.LOGS_RESPONSE_HEADERS, responseHeaders));
     if (LOG_RESPONSE_BODY) {
-      asyncLogger.info(String.format(Constants.LOGS_RESPONSE_BODY, removeRowJumps(responseBody)));
+      String responseBody = removeRowJumps(bufferedResponse.getContent());
+      stringBuilder.append(String.format("\n" + Constants.LOGS_RESPONSE_BODY, responseBody));
     }
-    asyncLogger.info(String.format(Constants.LOGS_TOTAL_REQUEST_TIME, totalRequestTime));
+    stringBuilder.append(String.format("\n" + Constants.LOGS_TOTAL_REQUEST_TIME, totalRequestTime));
+    return stringBuilder.toString();
   }
 
   static String removeRowJumps(String string) {
