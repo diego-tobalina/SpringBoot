@@ -26,7 +26,7 @@ c_multitenant_datasource (
     active boolean # cuando arranca la aplicación solo carga los tenant activos
     name varchar(255) # nombre del tenant que se utilizará en los headers de las llamadas
     password varchar(255) # contraseña del usuario con el que se conectará a la base de datos
-    url varchar(255) # url de conexión, ejemplo: jdbc:postgresql://localhost:5432/principal?currentSchema=public&ApplicationName=SpringBoot
+    url varchar(255) # url de conexión, ejemplo: jdbc:postgresql://localhost:5432/postgres?ApplicationName=MultiTenant
     username varchar(255) # usuario con el que se conectará a la base de datos
 )
 
