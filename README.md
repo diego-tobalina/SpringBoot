@@ -152,12 +152,12 @@ Para añadir una entidad 1:N se utilizarán como ejemplo las entidades Company y
 
 1. Lanzar el script de ejemplo:
 
-node scritps/clone_example.js Company String name String description
-node scritps/clone_example.js Department String name String description
-node scritps/clone_example.js Employee String name String surname String office String businessEmail Integer age Boolean active Double salary Double hourlyRate
-node scritps/clone_example.js Material String name String description String location
-node scritps/clone_example_usecase.js AddDepartmentToCompanyUseCase
-node scritps/clone_example_usecase.js RemoveDepartmentFromCompanyUseCase
+node scripts/clone_example.js Company String name String description
+node scripts/clone_example.js Department String name String description
+node scripts/clone_example.js Employee String name String surname String office String businessEmail Integer age Boolean active Double salary Double hourlyRate
+node scripts/clone_example.js Material String name String description String location
+node scripts/clone_example_usecase.js AddDepartmentToCompanyUseCase
+node scripts/clone_example_usecase.js RemoveDepartmentFromCompanyUseCase
 
 2. Añadir a la clase "Company" el siguiente código:
 
@@ -275,11 +275,11 @@ coincidan
 ``````
 - Para modificar la plantilla para los crud y las nuevas entidades modificar el contenido del paquete 
 
-com.xbidi.spring.content.example
+com.diegotobalina.framework.customizable.entities.example
 
-- Para modificarla plantilla par los nuevos casos de uso modificar el contenido del paquete
+- Para modificarla plantilla par los nuevos casos de uso modificar la clase
 
-com.xbidi.spring.content.usecase.exampleusecase
+com.diegotobalina.framework.customizable.usecases.ExampleUseCase.java
 ``````
 
 ## 🚀 Desplegar en docker

@@ -7,7 +7,7 @@ const stat = promisify(fs.stat);
 
 // constantes
 const baseEntity = "Example"
-const basePackage = "com/xbidi/spring";
+const basePackage = "com/diegotobalina/framework";
 
 // nombres para reemplazar
 const entity = process.argv.slice(2)[0];
@@ -28,17 +28,22 @@ const entityUpperSnakeCase = toUpperSnakeCase(entity);
 
 // directorios para trabajar
 const currentDir = __dirname;
-const filesDir = `${currentDir}/src/main/java/${basePackage}/content/example`;
-const filesDestinationDir = `${currentDir}/src/main/java/${basePackage}/content/${entityLowerCase}`;
-const testsDir = `${currentDir}/src/test/java/${basePackage}/content/example`;
-const testsDestinationDir = `${currentDir}/src/test/java/${basePackage}/content/${entityLowerCase}`;
+const filesDir = removeScriptsFolder(`${currentDir}/src/main/java/${basePackage}/customizable/entities/example`);
+const filesDestinationDir = removeScriptsFolder(`${currentDir}/src/main/java/${basePackage}/customizable/entities/${entityLowerCase}`);
+const testsDir = removeScriptsFolder(`${currentDir}/src/test/java/${basePackage}/customizable/entities/example`);
+const testsDestinationDir = removeScriptsFolder(`${currentDir}/src/test/java/${basePackage}/customizable/entities/${entityLowerCase}`);
+
+function removeScriptsFolder(string) {
+    return string.replace("/scripts/src/", "/src/");
+}
 
 // copia los ficheros originales al nuevo directorio
 copyFiles(filesDir, filesDestinationDir).then(() => {/**/
 });
 
-copyFiles(testsDir, testsDestinationDir).then(() => {/**/
-});
+//copyFiles(testsDir, testsDestinationDir).then(() => {/**/
+//});
+
 
 function replaceEntityNames(string) {
     let response = string;

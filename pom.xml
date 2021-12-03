@@ -8,11 +8,11 @@
         <version>2.5.7</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
-    <groupId>com.xbidi</groupId>
+    <groupId>com.diegotobalina.framework</groupId>
     <artifactId>springboot</artifactId>
-    <version>1.0.0</version>
-    <name>SpringBoot</name>
-    <description>Aplicación base de Spring Boot para proyectos</description>
+    <version>0.0.1</version>
+    <name>SpringBoot custom framework</name>
+    <description>Aplicación utilizando un nuevo framework de desarrollo</description>
     <properties>
         <java.version>17</java.version>
         <org.mapstruct.version>1.4.2.Final</org.mapstruct.version>
