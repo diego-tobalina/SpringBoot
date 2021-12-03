@@ -14,7 +14,7 @@ public class AuditorAwareImpl implements AuditorAware<String> {
   @NotNull
   @Override
   public Optional<String> getCurrentAuditor() {
-    if (!isAuthenticated()) return Optional.of(Constants.ANONYMOUS_USER);
+    if (!isAuthenticated()) return Optional.of(Constants.ANONYMOUS_USER_EMAIL);
     Authentication authenticated = getAuthenticated();
     AuthenticationImpl customUserDetails = (AuthenticationImpl) authenticated;
     return Optional.of(customUserDetails.getUserId());
@@ -25,7 +25,7 @@ public class AuditorAwareImpl implements AuditorAware<String> {
     var authentication = context.getAuthentication();
     if (authentication == null) return false;
     if (!authentication.isAuthenticated()) return false;
-    return !authentication.getPrincipal().equals(Constants.ANONYMOUS_USER);
+    return !authentication.getPrincipal().equals(Constants.ANONYMOUS_USER_EMAIL);
   }
 
   public Authentication getAuthenticated() {

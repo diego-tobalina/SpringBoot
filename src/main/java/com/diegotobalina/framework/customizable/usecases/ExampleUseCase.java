@@ -20,6 +20,7 @@ import java.lang.annotation.Target;
 @Validated
 @RestController
 @AllArgsConstructor
+@SuppressWarnings({"java:S1874"})
 @Api(tags = "UseCase", description = "Casos de uso")
 @RequestMapping("/api/v0/use-case/")
 public class ExampleUseCase {
@@ -29,7 +30,7 @@ public class ExampleUseCase {
   @ToString(callSuper = true)
   @ExampleUseCaseInputDTOConstraint
   static class ExampleUseCaseInputDTO {
-    // TODO implement
+    /* empty */
   }
 
   @Getter
@@ -37,14 +38,13 @@ public class ExampleUseCase {
   @ToString()
   @AllArgsConstructor
   static class ExampleUseCaseOutputDTO {
-    // TODO implement
+    /* empty */
   }
 
-  @ResponseStatus(HttpStatus.NO_CONTENT) // TODO cambiar respuesta
-  @GetMapping("/example") // TODO cambiar url
+  @ResponseStatus(HttpStatus.NO_CONTENT)
+  @GetMapping("/example")
   @Transactional(rollbackFor = Exception.class)
   public ExampleUseCaseOutputDTO useCase(@RequestBody @Valid ExampleUseCaseInputDTO inputDTO) {
-    // TODO implement
     return new ExampleUseCaseOutputDTO();
   }
 
@@ -56,7 +56,6 @@ public class ExampleUseCase {
     @Override
     public boolean isValid(
         ExampleUseCaseInputDTO inputDTO, ConstraintValidatorContext constraintValidatorContext) {
-      // TODO implement
       return true;
     }
 

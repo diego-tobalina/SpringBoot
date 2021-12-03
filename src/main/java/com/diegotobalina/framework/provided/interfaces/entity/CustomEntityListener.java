@@ -25,17 +25,17 @@ public class CustomEntityListener {
   }
 
   @PreRemove
-  public void preRemove(Object o) {}
+  public void preRemove(Object o) {/* empty */}
 
   @PostLoad
-  public void postLoad(Object o) {}
+  public void postLoad(Object o) {/* empty */}
 
   @PostPersist
-  public void postPersist(Object o) {}
+  public void postPersist(Object o) {/* empty */}
 
   @PostUpdate
-  public void postUpdate(Object o) {}
+  public void postUpdate(Object o) {/* empty */}
 
   @PostRemove
-  public void postRemove(Object o) {}
+  public void postRemove(Object o) {/* empty */}
 }

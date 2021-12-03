@@ -14,7 +14,6 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Mapper
 public interface ExampleMapper {
@@ -39,7 +38,7 @@ public interface ExampleMapper {
   default List<BaseExampleOutputDTO> toExampleOutputDTOS(StyleEnum style, Page<Example> examples) {
     return examples.getContent().stream()
         .map(example -> toExampleOutputDTO(style, example))
-        .collect(Collectors.toList());
+        .toList();
   }
 
   default BaseExampleOutputDTO toExampleOutputDTO(StyleEnum style, Example example) {

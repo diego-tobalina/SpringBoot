@@ -24,7 +24,7 @@ public class AuthenticationManager {
     var authentication = context.getAuthentication();
     if (authentication == null) return false;
     if (!authentication.isAuthenticated()) return false;
-    return !authentication.getPrincipal().equals(Constants.ANONYMOUS_USER);
+    return !authentication.getPrincipal().equals(Constants.ANONYMOUS_USER_EMAIL);
   }
 
   public void authenticate(HttpServletRequest req) {

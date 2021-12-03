@@ -9,9 +9,9 @@ import org.springframework.data.jpa.repository.JpaRepository;
 @UseCase
 public class FindExampleUseCase implements FindUseCase<Example> {
   @Override
-  public void preLoad(long id, CrudService<Example> service, JpaRepository<Example, Long> repository) {}
+  public void preLoad(long id, CrudService<Example> service, JpaRepository<Example, Long> repository) {/* empty */}
 
   @Override
   public void postLoad(
-          Example example, CrudService<Example> service, JpaRepository<Example, Long> repository) {}
+          Example example, CrudService<Example> service, JpaRepository<Example, Long> repository) {/* empty */}
 }

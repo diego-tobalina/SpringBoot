@@ -8,7 +8,6 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 import java.util.Collection;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @ToString
 public class AuthenticationImpl implements Authentication {
@@ -20,7 +19,7 @@ public class AuthenticationImpl implements Authentication {
   private final transient Object details;
   private final transient List<String> credentials;
   private final transient List<String> tenants;
-  private final List<GrantedAuthority> roles;
+  private final List<SimpleGrantedAuthority> roles;
   private boolean authenticated;
 
   /** @param roles Must follow this patter: ['ROLE_USER','ROLE_ADMIN'...] */
@@ -46,8 +45,8 @@ public class AuthenticationImpl implements Authentication {
     this.authorization = authorization;
   }
 
-  private List<GrantedAuthority> getRoles(List<String> authorities) {
-    return authorities.stream().map(SimpleGrantedAuthority::new).collect(Collectors.toList());
+  private List<SimpleGrantedAuthority> getRoles(List<String> authorities) {
+    return authorities.stream().map(SimpleGrantedAuthority::new).toList();
   }
 
   @Override

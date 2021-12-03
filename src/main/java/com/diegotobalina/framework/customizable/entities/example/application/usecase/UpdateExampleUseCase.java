@@ -10,17 +10,17 @@ import org.springframework.data.jpa.repository.JpaRepository;
 public class UpdateExampleUseCase implements UpdateUseCase<Example> {
   @Override
   public void preLoad(
-          long id, Object o, CrudService<Example> service, JpaRepository<Example, Long> repository) {}
+          long id, Object o, CrudService<Example> service, JpaRepository<Example, Long> repository) {/* empty */}
 
   @Override
   public void preUpdate(
-          Example example, Object o, CrudService<Example> service, JpaRepository<Example, Long> repository) {}
+          Example example, Object o, CrudService<Example> service, JpaRepository<Example, Long> repository) {/* empty */}
 
   @Override
   public void preSave(
-          Example example, Object o, CrudService<Example> service, JpaRepository<Example, Long> repository) {}
+          Example example, Object o, CrudService<Example> service, JpaRepository<Example, Long> repository) {/* empty */}
 
   @Override
   public void postSave(
-          Example example, Object o, CrudService<Example> service, JpaRepository<Example, Long> repository) {}
+          Example example, Object o, CrudService<Example> service, JpaRepository<Example, Long> repository) {/* empty */}
 }
