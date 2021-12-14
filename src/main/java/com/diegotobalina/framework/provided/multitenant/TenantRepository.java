@@ -1,7 +1,7 @@
 package com.diegotobalina.framework.provided.multitenant;
 
 import com.diegotobalina.framework.provided.multitenant.tenantdatasource.domain.TenantDataSource;
-import com.diegotobalina.framework.provided.multitenant.tenantdatasource.infrastructure.repository.TenantDataSourceRepository;
+import com.diegotobalina.framework.provided.multitenant.tenantdatasource.infrastructure.TenantDataSourceRepository;
 import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.stereotype.Component;
 
@@ -11,16 +11,17 @@ import java.io.Serializable;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @Component
 public class TenantRepository implements Serializable {
 
   private final transient HashMap<String, DataSource> dataSources = new HashMap<>();
 
-  private final transient TenantDataSourceRepository configRepo;
+  private final transient TenantDataSourceRepository tenantDataSourceRepository;
 
-  public TenantRepository(TenantDataSourceRepository configRepo) {
-    this.configRepo = configRepo;
+  public TenantRepository(TenantDataSourceRepository tenantDataSourceRepository) {
+    this.tenantDataSourceRepository = tenantDataSourceRepository;
   }
 
   public DataSource getDataSource(String name) {
@@ -36,7 +37,7 @@ public class TenantRepository implements Serializable {
 
   @PostConstruct
   public Map<String, DataSource> getAll() {
-    List<TenantDataSource> configList = configRepo.findAll();
+    List<TenantDataSource> configList = tenantDataSourceRepository.findAll();
     Map<String, DataSource> result = new HashMap<>();
     for (TenantDataSource config : configList) {
       DataSource dataSource = getDataSource(config.getHeaderToken());
@@ -46,14 +47,16 @@ public class TenantRepository implements Serializable {
   }
 
   private DataSource createDataSource(String name) {
-    TenantDataSource config = configRepo.findByHeaderTokenAndActive(name, true);
-    if (config != null) {
+    Optional<TenantDataSource> optional =
+        tenantDataSourceRepository.findByHeaderTokenAndActive(name, true);
+    if (optional.isPresent()) {
+      TenantDataSource tenantDataSource = optional.get();
       DataSourceBuilder<?> factory =
           DataSourceBuilder.create()
-              .driverClassName(config.getDriverClassName())
-              .username(config.getUsername())
-              .password(config.getPassword())
-              .url(config.getUrl());
+              .driverClassName(tenantDataSource.getDriverClassName())
+              .username(tenantDataSource.getUsername())
+              .password(tenantDataSource.getPassword())
+              .url(tenantDataSource.getUrl());
       return factory.build();
     }
     return null;

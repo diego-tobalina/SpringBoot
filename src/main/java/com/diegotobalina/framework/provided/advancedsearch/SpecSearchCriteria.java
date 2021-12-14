@@ -11,9 +11,7 @@ public class SpecSearchCriteria {
     private Object value;
     private boolean orPredicate;
 
-    public SpecSearchCriteria() {
-
-    }
+    public SpecSearchCriteria() {}
 
     public SpecSearchCriteria(final String key, final SearchOperation operation, final Object value) {
         super();
