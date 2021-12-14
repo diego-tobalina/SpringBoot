@@ -7,8 +7,10 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
+
 @Repository
 public interface TenantDataSourceRepository
     extends JpaRepository<TenantDataSource, Long>, JpaSpecificationExecutor<TenantDataSource> {
-  TenantDataSource findByHeaderTokenAndActive(String headerToken, boolean active);
+  Optional<TenantDataSource> findByHeaderTokenAndActive(String headerToken, boolean active);
 }

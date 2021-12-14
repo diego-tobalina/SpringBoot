@@ -1,7 +1,7 @@
 package com.diegotobalina.framework.provided.multitenant;
 
 import com.diegotobalina.framework.provided.multitenant.tenantdatasource.domain.TenantDataSource;
-import com.diegotobalina.framework.provided.multitenant.tenantdatasource.infrastructure.TenantDataSourceRepository;
+import com.diegotobalina.framework.provided.multitenant.tenantdatasource.infrastructure.repository.TenantDataSourceRepository;
 import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.stereotype.Component;
 
