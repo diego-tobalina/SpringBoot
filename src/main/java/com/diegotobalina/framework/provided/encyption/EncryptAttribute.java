@@ -2,7 +2,7 @@ package com.diegotobalina.framework.provided.encyption;
 
 import com.diegotobalina.framework.provided.responses.ErrorResponse;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 
 import javax.persistence.AttributeConverter;
 import javax.persistence.Converter;
@@ -14,16 +14,11 @@ import javax.persistence.Converter;
  */
 @Slf4j
 @Converter
+@Component
 public class EncryptAttribute implements AttributeConverter<String, String> {
 
-  @SuppressWarnings({"java:S3008"})
-  @Value("${encryption.key}")
-  private static String KEY = "";
-
-  @SuppressWarnings({"java:S3008"})
-  @Value("${encryption.aad}")
-  private static String AAD = "";
-
+  private static final String KEY = "0000000000000000000000000000000F";
+  private static final String AAD = "Lorem ipsum dolor sit amet, consectetur adipiscing elit.";
   private static final EncryptManager encryptManager = new EncryptManager(KEY.getBytes(), AAD);
 
   @Override
@@ -33,7 +28,7 @@ public class EncryptAttribute implements AttributeConverter<String, String> {
     } catch (Exception ex) {
       new ErrorResponse(ex, 500).printMessage();
     }
-    return null;
+    return attribute;
   }
 
   @Override
@@ -43,6 +38,6 @@ public class EncryptAttribute implements AttributeConverter<String, String> {
     } catch (Exception ex) {
       new ErrorResponse(ex, 500).printMessage();
     }
-    return null;
+    return dbData;
   }
 }

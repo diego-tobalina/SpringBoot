@@ -1,4 +1,4 @@
-package com.diegotobalina.framework.provided.advancedsearch;
+package com.diegotobalina.framework.provided.search;
 
 import com.google.common.base.Joiner;
 import lombok.NoArgsConstructor;

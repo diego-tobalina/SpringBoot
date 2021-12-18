@@ -1,6 +1,7 @@
 package com.diegotobalina.framework.provided.multitenant;
 
 public abstract class TenantContext {
+
   private static final ThreadLocal<String> currentTenant = new InheritableThreadLocal<>();
 
   private TenantContext() {}

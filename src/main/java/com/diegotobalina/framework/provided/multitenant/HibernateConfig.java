@@ -3,7 +3,6 @@ package com.diegotobalina.framework.provided.multitenant;
 import org.hibernate.MultiTenancyStrategy;
 import org.hibernate.context.spi.CurrentTenantIdentifierResolver;
 import org.hibernate.engine.jdbc.connections.spi.MultiTenantConnectionProvider;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.orm.jpa.JpaProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -19,9 +18,6 @@ import static org.hibernate.cfg.AvailableSettings.*;
 
 @Configuration
 public class HibernateConfig {
-
-  @Value("${spring.jpa.hibernate.ddl-auto}")
-  public String hibernateDdlAuto;
 
   private final JpaProperties jpaProperties;
 
@@ -39,11 +35,12 @@ public class HibernateConfig {
       DataSource dataSource,
       MultiTenantConnectionProvider multiTenantConnectionProviderImpl,
       CurrentTenantIdentifierResolver currentTenantIdentifierResolverImpl) {
+
     Map<String, Object> jpaPropertiesMap = new HashMap<>(jpaProperties.getProperties());
     jpaPropertiesMap.put(MULTI_TENANT, MultiTenancyStrategy.DATABASE);
     jpaPropertiesMap.put(MULTI_TENANT_CONNECTION_PROVIDER, multiTenantConnectionProviderImpl);
     jpaPropertiesMap.put(MULTI_TENANT_IDENTIFIER_RESOLVER, currentTenantIdentifierResolverImpl);
-    jpaPropertiesMap.put(HBM2DDL_AUTO, hibernateDdlAuto);
+    jpaPropertiesMap.put(HBM2DDL_AUTO, "auto");
 
     LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();
     em.setDataSource(dataSource);

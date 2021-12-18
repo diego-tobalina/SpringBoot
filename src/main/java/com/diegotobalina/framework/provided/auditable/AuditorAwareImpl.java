@@ -1,6 +1,5 @@
 package com.diegotobalina.framework.provided.auditable;
 
-import com.diegotobalina.framework.provided.Constants;
 import com.diegotobalina.framework.provided.security.AuthenticationImpl;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.data.domain.AuditorAware;
@@ -14,7 +13,7 @@ public class AuditorAwareImpl implements AuditorAware<String> {
   @NotNull
   @Override
   public Optional<String> getCurrentAuditor() {
-    if (!isAuthenticated()) return Optional.of(Constants.ANONYMOUS_USER_EMAIL);
+    if (!isAuthenticated()) return Optional.of("anonymous");
     Authentication authenticated = getAuthenticated();
     AuthenticationImpl customUserDetails = (AuthenticationImpl) authenticated;
     return Optional.of(customUserDetails.getUserId());
@@ -25,7 +24,7 @@ public class AuditorAwareImpl implements AuditorAware<String> {
     var authentication = context.getAuthentication();
     if (authentication == null) return false;
     if (!authentication.isAuthenticated()) return false;
-    return !authentication.getPrincipal().equals(Constants.ANONYMOUS_USER_EMAIL);
+    return !authentication.getPrincipal().equals("anonymous");
   }
 
   public Authentication getAuthenticated() {

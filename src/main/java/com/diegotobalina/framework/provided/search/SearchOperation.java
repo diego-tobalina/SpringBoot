@@ -1,4 +1,4 @@
-package com.diegotobalina.framework.provided.advancedsearch;
+package com.diegotobalina.framework.provided.search;
 
 public enum SearchOperation {
     EQUALITY, NEGATION, GREATER_THAN, LESS_THAN, LIKE, STARTS_WITH, ENDS_WITH, CONTAINS, EMPTY, NOT_EMPTY, NULL, NOT_NUL;

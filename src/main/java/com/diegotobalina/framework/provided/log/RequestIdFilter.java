@@ -1,7 +1,6 @@
 package com.diegotobalina.framework.provided.log;
 
 import org.jetbrains.annotations.NotNull;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
@@ -19,14 +18,11 @@ import java.util.UUID;
 @Order(Ordered.HIGHEST_PRECEDENCE)
 public class RequestIdFilter extends OncePerRequestFilter {
 
-  @Value("${request.id.header}")
-  public String requestIdHeader;
-
   @Override
   protected void doFilterInternal(
       @NotNull HttpServletRequest req, HttpServletResponse res, FilterChain chain)
       throws ServletException, IOException {
-    res.setHeader(requestIdHeader, UUID.randomUUID().toString());
+    res.setHeader("X-Request-Id", UUID.randomUUID().toString());
     chain.doFilter(req, res);
   }
 }

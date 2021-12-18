@@ -1,4 +1,4 @@
-package com.diegotobalina.framework.provided.swagger;
+package com.diegotobalina.framework.provided;
 
 import io.swagger.annotations.Api;
 import org.springframework.web.bind.annotation.GetMapping;

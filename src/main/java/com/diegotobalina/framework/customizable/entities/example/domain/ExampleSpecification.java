@@ -1,6 +1,6 @@
 package com.diegotobalina.framework.customizable.entities.example.domain;
 
-import com.diegotobalina.framework.provided.advancedsearch.SpecSearchCriteria;
+import com.diegotobalina.framework.provided.search.SpecSearchCriteria;
 import lombok.Builder;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;

@@ -13,9 +13,9 @@ import com.diegotobalina.framework.customizable.entities.example.domain.ExampleS
 import com.diegotobalina.framework.customizable.entities.example.infrastructure.controller.dto.input.ExampleInputDTO;
 import com.diegotobalina.framework.customizable.entities.example.infrastructure.controller.dto.output.BaseExampleOutputDTO;
 import com.diegotobalina.framework.customizable.entities.example.infrastructure.repository.ExampleRepository;
-import com.diegotobalina.framework.provided.advancedsearch.SpecificationsBuilder;
+import com.diegotobalina.framework.provided.search.SpecificationsBuilder;
 import com.diegotobalina.framework.provided.responses.StyleEnum;
-import com.diegotobalina.framework.provided.swagger.ApiPageable;
+import com.diegotobalina.framework.provided.ApiPageable;
 import io.swagger.annotations.Api;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;

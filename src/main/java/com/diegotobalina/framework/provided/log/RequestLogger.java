@@ -5,7 +5,6 @@ import com.diegotobalina.framework.provided.log.wrappers.BufferedRequestWrapper;
 import com.diegotobalina.framework.provided.log.wrappers.BufferedResponseWrapper;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.FilterChain;
@@ -20,9 +19,6 @@ import java.util.*;
 @Slf4j
 @Component
 public class RequestLogger {
-
-  @Value("${logger.path}")
-  public String logPath;
 
   private final AsyncLogger asyncLogger;
   private static final boolean LOG_REQUEST_BODY = true;
@@ -42,7 +38,7 @@ public class RequestLogger {
       // log request
       String requestLog = null;
       long requestMillis = System.currentTimeMillis(); // time before request processing
-      if (((HttpServletRequest) request).getRequestURI().contains(logPath))
+      if (((HttpServletRequest) request).getRequestURI().contains("/api/"))
         requestLog = logRequest(bufferedRequest);
 
       // process request
@@ -52,7 +48,7 @@ public class RequestLogger {
       String responseLog = null;
       long responseMillis = System.currentTimeMillis(); // time after request processing
       long totalRequestMillis = responseMillis - requestMillis; // total request processing time
-      if (((HttpServletRequest) request).getRequestURI().contains(logPath))
+      if (((HttpServletRequest) request).getRequestURI().contains("/api/"))
         responseLog = logResponse(bufferedResponse, totalRequestMillis);
 
       if (requestLog != null && responseLog != null) {

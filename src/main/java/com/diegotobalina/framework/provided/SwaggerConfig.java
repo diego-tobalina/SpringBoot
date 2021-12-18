@@ -1,6 +1,5 @@
-package com.diegotobalina.framework.provided.swagger;
+package com.diegotobalina.framework.provided;
 
-import com.diegotobalina.framework.provided.Constants;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.domain.Pageable;
@@ -42,6 +41,8 @@ public class SwaggerConfig implements WebMvcConfigurer {
   private static final String HEADER = "header";
   private static final String TITLE = "Swagger";
   private static final String VERSION = "v0";
+  private static final String MULTITENANT_HEADER = "X-Tenant-Id";
+  private static final String AUTHORIZATION_HEADER = "Authorization";
 
   @Override
   public void addResourceHandlers(ResourceHandlerRegistry registry) {
@@ -81,11 +82,11 @@ public class SwaggerConfig implements WebMvcConfigurer {
   }
 
   private ApiKey apiKey() {
-    return new ApiKey(Constants.AUTHORIZATION_HEADER, Constants.AUTHORIZATION_HEADER, HEADER);
+    return new ApiKey(AUTHORIZATION_HEADER, AUTHORIZATION_HEADER, HEADER);
   }
 
   private ApiKey tenant() {
-    return new ApiKey(Constants.MULTITENANT_HEADER, Constants.MULTITENANT_HEADER, HEADER);
+    return new ApiKey(MULTITENANT_HEADER, MULTITENANT_HEADER, HEADER);
   }
 
   private List<SecurityReference> defaultAuth() {
@@ -93,8 +94,8 @@ public class SwaggerConfig implements WebMvcConfigurer {
     var authorizationScopes = new AuthorizationScope[1];
     authorizationScopes[0] = authorizationScope;
     return Arrays.asList(
-        new SecurityReference(Constants.AUTHORIZATION_HEADER, authorizationScopes),
-        new SecurityReference(Constants.MULTITENANT_HEADER, authorizationScopes));
+        new SecurityReference(AUTHORIZATION_HEADER, authorizationScopes),
+        new SecurityReference(MULTITENANT_HEADER, authorizationScopes));
   }
 
   @Bean

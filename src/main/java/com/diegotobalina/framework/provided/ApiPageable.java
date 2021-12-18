@@ -1,4 +1,4 @@
-package com.diegotobalina.framework.provided.swagger;
+package com.diegotobalina.framework.provided;
 
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;

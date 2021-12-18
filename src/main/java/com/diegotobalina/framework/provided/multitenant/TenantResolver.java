@@ -1,6 +1,5 @@
 package com.diegotobalina.framework.provided.multitenant;
 
-import com.diegotobalina.framework.provided.Constants;
 import org.hibernate.context.spi.CurrentTenantIdentifierResolver;
 import org.springframework.stereotype.Component;
 
@@ -9,8 +8,7 @@ public class TenantResolver implements CurrentTenantIdentifierResolver {
 
   @Override
   public String resolveCurrentTenantIdentifier() {
-    String t = TenantContext.getCurrentTenant();
-    return t != null ? t : Constants.MULTITENANT_DEFAULT_DB;
+    return TenantContext.getCurrentTenant();
   }
 
   @Override

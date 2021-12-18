@@ -1,6 +1,5 @@
 package com.diegotobalina.framework.provided.security;
 
-import com.diegotobalina.framework.provided.Constants;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
@@ -14,6 +13,8 @@ public class AuthenticationManager {
 
   private final UserDetailsService userDetailsService;
   private static final String SPRING_SECURITY_CONTEXT = "SPRING_SECURITY_CONTEXT";
+  private static final String AUTHORIZATION_HEADER = "Authorization";
+  private static final String ANONYMOUS = "anonymous";
 
   public AuthenticationManager(UserDetailsService userDetailsService) {
     this.userDetailsService = userDetailsService;
@@ -24,13 +25,13 @@ public class AuthenticationManager {
     var authentication = context.getAuthentication();
     if (authentication == null) return false;
     if (!authentication.isAuthenticated()) return false;
-    return !authentication.getPrincipal().equals(Constants.ANONYMOUS_USER_EMAIL);
+    return !authentication.getPrincipal().equals(ANONYMOUS);
   }
 
   public void authenticate(HttpServletRequest req) {
     if (isAuthenticated()) return;
     // Verify the token
-    String authorization = req.getHeader(Constants.AUTHORIZATION_HEADER);
+    String authorization = req.getHeader(AUTHORIZATION_HEADER);
     AuthenticationImpl userDetails = this.userDetailsService.getByToken(authorization);
     if (userDetails == null) return;
 

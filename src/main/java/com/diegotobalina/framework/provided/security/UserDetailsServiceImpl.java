@@ -1,12 +1,11 @@
-package com.diegotobalina.framework.customizable.security;
+package com.diegotobalina.framework.provided.security;
 
-import com.diegotobalina.framework.provided.security.AuthenticationImpl;
-import com.diegotobalina.framework.provided.security.UserDetailsService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /** @author diegotobalina created on 24/06/2020 */
 @Slf4j
@@ -24,7 +23,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         "anonymous@gmail.com",
         new ArrayList<>(),
         new ArrayList<>(),
-        new ArrayList<>(),
+        List.of("postgres"),
         null,
         "anonymous@gmail.com",
         "anonymous",

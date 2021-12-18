@@ -1,4 +1,4 @@
-package com.diegotobalina.framework.provided.advancedsearch;
+package com.diegotobalina.framework.provided.search;
 
 import lombok.Getter;
 
