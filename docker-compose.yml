@@ -1,5 +1,30 @@
 version: '2'
 services:
+  portainer:
+    image: portainer/portainer-ce:latest
+    container_name: portainer
+    restart: unless-stopped
+    security_opt:
+      - no-new-privileges:true
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - ./portainer-data:/data
+    ports:
+      - "9000:9000"
+  watchtower:
+    container_name: watchtower
+    image: containrrr/watchtower
+    restart: always
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /etc/timezone:/etc/timezone:ro
+    environment:
+      - WATCHTOWER_CLEANUP=true
+      - WATCHTOWER_LABEL_ENABLE=true
+      - WATCHTOWER_INCLUDE_RESTARTING=true
+    labels:
+      - "com.centurylinklabs.watchtower.enable=true"
   pgadmin:
     container_name: pgadmin
     image: dpage/pgadmin4
@@ -8,7 +33,7 @@ services:
       PGADMIN_DEFAULT_PASSWORD: password
       PGADMIN_CONFIG_SERVER_MODE: 'False'
     volumes:
-      - pgadmin:/root/.pgadmin
+      - ./pgadmin-data:/root/.pgadmin
     ports:
       - "80:80"
     networks:
@@ -22,7 +47,7 @@ services:
     ports:
       - "5432:5432"
     volumes:
-      - postgreData:/var/lib/postgresql/data
+      - ./postgres-data:/var/lib/postgresql/data
     networks:
       - app
       - database
@@ -42,10 +67,7 @@ services:
     depends_on:
       - postgres
     environment:
-      DATABASE_URL: jdbc:postgresql://postgres:5432/postgres
-volumes:
-  postgreData:
-  pgadmin:
+      DATABASE_URL: jdbc:postgresql://postgres:5432/postgres?currentSchema=public&ApplicationName=SpringBoot&sslmode=disable
 networks:
   app:
   database:
