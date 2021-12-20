@@ -35,3 +35,8 @@ build/
 .vscode/
 target
 .DS_Store
+
+### Project ###
+pgadmin-data
+portainer-data
+postgres-data

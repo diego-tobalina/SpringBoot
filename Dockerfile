@@ -2,15 +2,20 @@
 # Build stage
 #
 FROM maven:3.8.4-openjdk-17 AS build
-COPY src /home/app/src
+
+# Download dependencies
+RUN mkdir /home/app
 COPY pom.xml /home/app
-RUN mvn -f /home/app/pom.xml clean package
+RUN mvn -f /home/app/pom.xml verify clean --fail-never
+
+# Compile code
+COPY src /home/app/src
+RUN mvn -f /home/app/pom.xml package
 
 #
 # Package stage
 #
 FROM openjdk:17-alpine
-ARG JAR_FILE=target/*.jar
-COPY ${JAR_FILE} application.jar
+COPY --from=build /home/app/target/*.jar application.jar
 EXPOSE 8080
 ENTRYPOINT ["java","-jar","/application.jar"]
