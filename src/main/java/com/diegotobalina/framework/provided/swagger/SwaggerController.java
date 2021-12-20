@@ -9,7 +9,7 @@ import java.io.IOException;
 
 /** @author diegotobalina created on 24/06/2020 */
 @RestController
-@Api(tags = "swagger")
+@Api(tags = "Swagger")
 public class SwaggerController {
 
   @GetMapping(value = "/")

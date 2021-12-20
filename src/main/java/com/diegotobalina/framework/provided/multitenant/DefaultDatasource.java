@@ -11,11 +11,21 @@ public class DefaultDatasource {
 
   @Bean
   public DataSource defaultDataSource() {
+    String driverClassName = "org.postgresql.Driver";
+    String userName = "postgres";
+    String password = "password";
+    String host = "localhost";
+    String port = "5432";
+    String database = "postgres";
+    String schema = "public";
+    String applicationName = "spring";
+    String baseUrlString = "jdbc:postgresql://%s:%s/%s?currentSchema=%s&ApplicationName=%s";
+    String url = String.format(baseUrlString, host, port, database, schema, applicationName);
     return DataSourceBuilder.create()
-        .driverClassName("org.postgresql.Driver")
-        .username("postgres")
-        .password("password")
-        .url("jdbc:postgresql://localhost:5432/postgres?ApplicationName=MultiTenant")
+        .driverClassName(driverClassName)
+        .username(userName)
+        .password(password)
+        .url(url)
         .build();
   }
 }

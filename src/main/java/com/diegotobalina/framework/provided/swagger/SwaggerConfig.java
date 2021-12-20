@@ -62,7 +62,10 @@ public class SwaggerConfig implements WebMvcConfigurer {
     return new Docket(DocumentationType.SWAGGER_2)
         .apiInfo(getApiInfo())
         .securityContexts(List.of(securityContext()))
-        .securitySchemes(List.of(apiKey(), tenant()))
+        .securitySchemes(
+            List.of(
+                new ApiKey(AUTHORIZATION_HEADER, AUTHORIZATION_HEADER, HEADER),
+                new ApiKey(MULTITENANT_HEADER, MULTITENANT_HEADER, HEADER)))
         .ignoredParameterTypes(Principal.class)
         .ignoredParameterTypes(Pageable.class)
         .enable(true)
@@ -81,18 +84,9 @@ public class SwaggerConfig implements WebMvcConfigurer {
     return SecurityContext.builder().securityReferences(defaultAuth()).build();
   }
 
-  private ApiKey apiKey() {
-    return new ApiKey(AUTHORIZATION_HEADER, AUTHORIZATION_HEADER, HEADER);
-  }
-
-  private ApiKey tenant() {
-    return new ApiKey(MULTITENANT_HEADER, MULTITENANT_HEADER, HEADER);
-  }
-
   private List<SecurityReference> defaultAuth() {
     var authorizationScope = new AuthorizationScope("global", "accessEverything");
-    var authorizationScopes = new AuthorizationScope[1];
-    authorizationScopes[0] = authorizationScope;
+    var authorizationScopes = new AuthorizationScope[] {authorizationScope};
     return Arrays.asList(
         new SecurityReference(AUTHORIZATION_HEADER, authorizationScopes),
         new SecurityReference(MULTITENANT_HEADER, authorizationScopes));

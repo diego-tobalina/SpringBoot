@@ -20,16 +20,6 @@ Aplicación base de Spring Boot para nuevos proyectos
 La aplicación utiliza una base de datos PostgreSQL
 Por defecto genera las siguientes tablas en el primer arranque
 
-c_multitenant_datasource (
-    id bigInt # id del tenant
-    driverclassname varchar(255) # driver para conectarse, ejemplo: org.postgresql.Driver
-    active boolean # cuando arranca la aplicación solo carga los tenant activos
-    name varchar(255) # nombre del tenant que se utilizará en los headers de las llamadas
-    password varchar(255) # contraseña del usuario con el que se conectará a la base de datos
-    url varchar(255) # url de conexión, ejemplo: jdbc:postgresql://localhost:5432/postgres?ApplicationName=MultiTenant
-    username varchar(255) # usuario con el que se conectará a la base de datos
-)
-
 revinfo {
     # tabla para guardar los datos de auditoría de las entidades
 }

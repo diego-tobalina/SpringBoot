@@ -31,11 +31,10 @@ public class RequestInterceptor extends OncePerRequestFilter {
       HttpServletRequest req, @NotNull HttpServletResponse res, @NotNull FilterChain chain) {
 
     // solo las rutas que contengan /api tienen filtro de tenant
-    if (!req.getRequestURI().contains("/api")) {
+    if (!req.getRequestURI().contains("/api/")) {
       chain.doFilter(req, res);
       return;
     }
-
 
     // comprueba que el usuario ha elegido un tenant (tenant por defecto: "default")
     String tenantID = req.getHeader("X-Tenant-Id");
@@ -46,7 +45,8 @@ public class RequestInterceptor extends OncePerRequestFilter {
 
     // comprueba que el usuario pueda acceder al tenant
     if (authenticationManager.isAuthenticated()) {
-      AuthenticationImpl authentication = (AuthenticationImpl) authenticationManager.getAuthenticated();
+      AuthenticationImpl authentication =
+          (AuthenticationImpl) authenticationManager.getAuthenticated();
       if (!authentication.hasTenant(tenantID)) {
         sendError(res, HttpStatus.FORBIDDEN, "Forbidden tenant for this user");
         return;
@@ -59,11 +59,12 @@ public class RequestInterceptor extends OncePerRequestFilter {
     TenantContext.clear();
   }
 
-  private void sendError(@NotNull HttpServletResponse res, HttpStatus badRequest, String s) throws IOException {
+  private void sendError(@NotNull HttpServletResponse res, HttpStatus badRequest, String s)
+      throws IOException {
     int badRequestStatus = badRequest.value();
     ForbiddenTenantException forbiddenTenantException = new ForbiddenTenantException(s);
-    ErrorResponse errorResponse = new ErrorResponse(forbiddenTenantException, badRequestStatus).printMessage();
+    ErrorResponse errorResponse =
+        new ErrorResponse(forbiddenTenantException, badRequestStatus).printMessage();
     new PowerResponse(res).sendJson(errorResponse, badRequestStatus);
   }
-
 }

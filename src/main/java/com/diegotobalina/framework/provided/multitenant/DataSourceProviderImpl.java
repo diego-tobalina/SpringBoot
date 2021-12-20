@@ -23,8 +23,8 @@ public class DataSourceProviderImpl
   @Override
   protected DataSource selectDataSource(String tenantIdentifier) {
     switch (tenantIdentifier) {
-      default -> this.selectAnyDataSource();
+      default:
+        return this.selectAnyDataSource();
     }
-    throw new IllegalArgumentException("Unknown tenant identifier: " + tenantIdentifier);
   }
 }
