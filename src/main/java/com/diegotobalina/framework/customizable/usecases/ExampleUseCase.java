@@ -20,7 +20,6 @@ import java.lang.annotation.Target;
 @Validated
 @RestController
 @AllArgsConstructor
-@SuppressWarnings({"java:S1874"})
 @Api(tags = "UseCase", description = "Casos de uso")
 @RequestMapping("/api/v0/use-case/")
 public class ExampleUseCase {

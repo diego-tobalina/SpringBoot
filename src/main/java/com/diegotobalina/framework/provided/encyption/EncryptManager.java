@@ -10,6 +10,7 @@ import java.nio.charset.StandardCharsets;
 import java.security.GeneralSecurityException;
 import java.security.NoSuchAlgorithmException;
 import java.util.Base64;
+import java.util.UUID;
 
 /** @author diegotobalina created on 13/08/2020 */
 @Getter
@@ -22,21 +23,36 @@ public class EncryptManager {
 
   public EncryptManager() throws NoSuchAlgorithmException {
     this.key = getSecureKey();
-    this.aad = new String(getSecureKey(), StandardCharsets.UTF_8);
+    this.aad = UUID.randomUUID().toString();
   }
 
+  /**
+   * @param key not null or empty, must be 32 bytes
+   * @param aad not null or empty
+   */
   public EncryptManager(byte[] key, String aad) {
     this.key = key;
     this.aad = aad;
   }
 
+  /**
+   * @param key not null or empty, must be 32 bytes
+   * @param aad not null or empty
+   */
+  public EncryptManager(String key, String aad) {
+    this.key = key.getBytes();
+    this.aad = aad;
+  }
+
   public String encrypt(String string) throws GeneralSecurityException {
+    if (isEncrypted(string)) return string;
     var agjEncryption = new AesGcmJce(key);
     byte[] encrypted = agjEncryption.encrypt(string.getBytes(), aad.getBytes());
     return Base64.getEncoder().encodeToString(encrypted);
   }
 
   public String decrypt(String string) throws GeneralSecurityException {
+    if (!isEncrypted(string)) return string;
     var agjDecryption = new AesGcmJce(key);
     byte[] bytes = Base64.getDecoder().decode(string);
     byte[] decrypt = agjDecryption.decrypt(bytes, aad.getBytes());

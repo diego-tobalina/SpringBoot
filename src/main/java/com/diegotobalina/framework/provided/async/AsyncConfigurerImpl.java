@@ -19,6 +19,13 @@ import java.util.concurrent.Executor;
 @Configuration(proxyBeanMethods = false)
 public class AsyncConfigurerImpl implements AsyncConfigurer, AsyncUncaughtExceptionHandler {
 
+  @Bean(name = "applicationEventMulticaster")
+  public ApplicationEventMulticaster simpleApplicationEventMulticaster() {
+    var eventMulticaster = new SimpleApplicationEventMulticaster();
+    eventMulticaster.setTaskExecutor(new SimpleAsyncTaskExecutor());
+    return eventMulticaster;
+  }
+
   @Override
   public Executor getAsyncExecutor() {
     var threadPoolTaskExecutor = new ThreadPoolTaskExecutor();
@@ -30,13 +37,6 @@ public class AsyncConfigurerImpl implements AsyncConfigurer, AsyncUncaughtExcept
   @Override
   public AsyncUncaughtExceptionHandler getAsyncUncaughtExceptionHandler() {
     return new AsyncConfigurerImpl();
-  }
-
-  @Bean(name = "applicationEventMulticaster")
-  public ApplicationEventMulticaster simpleApplicationEventMulticaster() {
-    var eventMulticaster = new SimpleApplicationEventMulticaster();
-    eventMulticaster.setTaskExecutor(new SimpleAsyncTaskExecutor());
-    return eventMulticaster;
   }
 
   @Override
