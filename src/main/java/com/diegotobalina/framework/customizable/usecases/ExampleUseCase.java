@@ -41,7 +41,7 @@ public class ExampleUseCase {
     /* empty */
   }
 
-  @ResponseStatus(HttpStatus.NO_CONTENT)
+  @ResponseStatus(HttpStatus.OK)
   @GetMapping("/example")
   @Transactional(rollbackFor = Exception.class)
   public ExampleUseCaseOutputDTO useCase(@RequestBody @Valid ExampleUseCaseInputDTO inputDTO) {
