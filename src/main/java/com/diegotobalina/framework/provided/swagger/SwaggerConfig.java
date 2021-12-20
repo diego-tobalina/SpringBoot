@@ -1,4 +1,4 @@
-package com.diegotobalina.framework.provided;
+package com.diegotobalina.framework.provided.swagger;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

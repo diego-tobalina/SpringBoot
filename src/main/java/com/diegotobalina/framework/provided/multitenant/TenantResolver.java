@@ -8,7 +8,8 @@ public class TenantResolver implements CurrentTenantIdentifierResolver {
 
   @Override
   public String resolveCurrentTenantIdentifier() {
-    return TenantContext.getCurrentTenant();
+    String currentTenant = TenantContext.getCurrentTenant();
+    return currentTenant != null ? currentTenant : "default";
   }
 
   @Override

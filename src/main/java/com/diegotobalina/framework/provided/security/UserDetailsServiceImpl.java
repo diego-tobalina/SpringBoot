@@ -23,7 +23,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         "anonymous@gmail.com",
         new ArrayList<>(),
         new ArrayList<>(),
-        List.of("postgres"),
+        List.of("default"),
         null,
         "anonymous@gmail.com",
         "anonymous",

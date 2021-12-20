@@ -15,7 +15,7 @@ import com.diegotobalina.framework.customizable.entities.example.infrastructure.
 import com.diegotobalina.framework.customizable.entities.example.infrastructure.repository.ExampleRepository;
 import com.diegotobalina.framework.provided.search.SpecificationsBuilder;
 import com.diegotobalina.framework.provided.responses.StyleEnum;
-import com.diegotobalina.framework.provided.ApiPageable;
+import com.diegotobalina.framework.provided.swagger.ApiPageable;
 import io.swagger.annotations.Api;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;

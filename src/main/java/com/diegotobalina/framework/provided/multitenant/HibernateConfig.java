@@ -40,7 +40,8 @@ public class HibernateConfig {
     jpaPropertiesMap.put(MULTI_TENANT, MultiTenancyStrategy.DATABASE);
     jpaPropertiesMap.put(MULTI_TENANT_CONNECTION_PROVIDER, multiTenantConnectionProviderImpl);
     jpaPropertiesMap.put(MULTI_TENANT_IDENTIFIER_RESOLVER, currentTenantIdentifierResolverImpl);
-    jpaPropertiesMap.put(HBM2DDL_AUTO, "auto");
+    jpaPropertiesMap.put(DIALECT, "org.hibernate.dialect.PostgreSQLDialect");
+    jpaPropertiesMap.put(HBM2DDL_AUTO, "update");
 
     LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();
     em.setDataSource(dataSource);
