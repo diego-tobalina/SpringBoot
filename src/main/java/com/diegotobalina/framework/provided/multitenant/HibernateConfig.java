@@ -41,7 +41,7 @@ public class HibernateConfig {
     jpaPropertiesMap.put(MULTI_TENANT_CONNECTION_PROVIDER, multiTenantConnectionProviderImpl);
     jpaPropertiesMap.put(MULTI_TENANT_IDENTIFIER_RESOLVER, currentTenantIdentifierResolverImpl);
     jpaPropertiesMap.put(DIALECT, "org.hibernate.dialect.PostgreSQLDialect");
-    jpaPropertiesMap.put(HBM2DDL_AUTO, "update");
+    jpaPropertiesMap.put(HBM2DDL_AUTO, "update"); // quitar esta propiedad para producción
 
     LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();
     em.setDataSource(dataSource);

@@ -14,6 +14,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import javax.servlet.FilterChain;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
 @Component
 public class RequestInterceptor extends OncePerRequestFilter {
@@ -36,15 +37,18 @@ public class RequestInterceptor extends OncePerRequestFilter {
     }
 
 
-    // comprueba que el usuario pueda acceder al tenant
+    // comprueba que el usuario ha elegido un tenant (tenant por defecto: "default")
     String tenantID = req.getHeader("X-Tenant-Id");
+    if (tenantID == null || tenantID.isBlank()) {
+      sendError(res, HttpStatus.BAD_REQUEST, "Missing X-Tenant-Id header");
+      return;
+    }
+
+    // comprueba que el usuario pueda acceder al tenant
     if (authenticationManager.isAuthenticated()) {
       AuthenticationImpl authentication = (AuthenticationImpl) authenticationManager.getAuthenticated();
       if (!authentication.hasTenant(tenantID)) {
-        int unauthorizedStatus = HttpStatus.FORBIDDEN.value();
-        ForbiddenTenantException forbiddenTenantException = new ForbiddenTenantException("Forbidden tenant for this user");
-        ErrorResponse errorResponse = new ErrorResponse(forbiddenTenantException, unauthorizedStatus).printMessage();
-        new PowerResponse(res).sendJson(errorResponse, unauthorizedStatus);
+        sendError(res, HttpStatus.FORBIDDEN, "Forbidden tenant for this user");
         return;
       }
     }
@@ -53,6 +57,13 @@ public class RequestInterceptor extends OncePerRequestFilter {
     TenantContext.setCurrentTenant(tenantID);
     chain.doFilter(req, res);
     TenantContext.clear();
+  }
+
+  private void sendError(@NotNull HttpServletResponse res, HttpStatus badRequest, String s) throws IOException {
+    int badRequestStatus = badRequest.value();
+    ForbiddenTenantException forbiddenTenantException = new ForbiddenTenantException(s);
+    ErrorResponse errorResponse = new ErrorResponse(forbiddenTenantException, badRequestStatus).printMessage();
+    new PowerResponse(res).sendJson(errorResponse, badRequestStatus);
   }
 
 }

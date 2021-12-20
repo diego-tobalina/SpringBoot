@@ -30,10 +30,6 @@ c_multitenant_datasource (
     username varchar(255) # usuario con el que se conectará a la base de datos
 )
 
-flyway_schema_history {
-    # tabla que utiliza la librería flyway para las migraciones de base de datos
-}
-
 revinfo {
     # tabla para guardar los datos de auditoría de las entidades
 }
