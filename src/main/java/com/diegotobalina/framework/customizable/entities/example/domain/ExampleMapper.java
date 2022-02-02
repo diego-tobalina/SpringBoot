@@ -10,6 +10,7 @@ import org.mapstruct.Mapper;
 
 @Mapper
 public interface ExampleMapper extends StaffitMapper<Example, ExampleInputDTO, BaseExampleOutputDTO, ExampleOutputDTO> {
+
     default Example getEntityInstance() {
         return new Example();
     }
@@ -21,4 +22,5 @@ public interface ExampleMapper extends StaffitMapper<Example, ExampleInputDTO, B
     default ExampleOutputDTO getOutputDTOInstance() {
         return new ExampleOutputDTO();
     }
+
 }

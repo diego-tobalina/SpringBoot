@@ -42,7 +42,7 @@ public interface StaffitMapper<E extends StaffitEntity, I extends StaffitInputDT
     }
 
     @SneakyThrows
-    default O toO(E entity) {
+    default O toOutputDTO(E entity) {
         O newInstance = getOutputDTOInstance();
         ObjectUtils.copy(entity, newInstance, new String[0]);
         return newInstance;
@@ -63,7 +63,7 @@ public interface StaffitMapper<E extends StaffitEntity, I extends StaffitInputDT
     default B toBaseOutputDTO(StyleEnum style, E staffitEntity) {
         return style.equals(StyleEnum.BASE)
                 ? toBaseOutputDTO(staffitEntity)
-                : toO(staffitEntity);
+                : toOutputDTO(staffitEntity);
     }
 
 }
