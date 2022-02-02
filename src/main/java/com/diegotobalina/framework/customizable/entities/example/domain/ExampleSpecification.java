@@ -1,34 +1,24 @@
 package com.diegotobalina.framework.customizable.entities.example.domain;
 
-import com.diegotobalina.framework.provided.search.SpecSearchCriteria;
+import com.diegotobalina.framework.core.crud.StaffitSpecification;
+import com.diegotobalina.framework.core.search.SpecSearchCriteria;
 import lombok.Builder;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-import org.springframework.data.jpa.domain.Specification;
+import lombok.Getter;
+import lombok.Setter;
 
-import javax.persistence.criteria.*;
-
+@Getter
+@Setter
 @Builder
-public class ExampleSpecification implements Specification<Example> {
+public class ExampleSpecification extends StaffitSpecification<Example> {
 
-  private transient SpecSearchCriteria criteria;
+    private transient SpecSearchCriteria specSearchCriteria;
 
-  public ExampleSpecification(SpecSearchCriteria criteria) {
-    this.criteria = criteria;
-  }
+    public ExampleSpecification(SpecSearchCriteria criteria) {
+        setSpecSearchCriteria(criteria);
+    }
 
-  @Override
-  public Predicate toPredicate(
-      final Root<Example> root,
-      @NotNull final CriteriaQuery<?> query,
-      @NotNull final CriteriaBuilder builder) {
-    String key = criteria.getKey();
-    Object value = criteria.getValue();
-    return getPredicate(root.get(key), builder, key, value);
-  }
-
-  @Nullable
-  private Predicate getPredicate(Path<?> path, CriteriaBuilder builder, String key, Object value) {
-    return criteria.buildPredicate(path, builder, key, value);
-  }
+    @Override
+    public SpecSearchCriteria getCriteria() {
+        return getSpecSearchCriteria();
+    }
 }

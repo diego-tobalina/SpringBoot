@@ -2,48 +2,23 @@
 
 package com.diegotobalina.framework.customizable.entities.example.domain;
 
+import com.diegotobalina.framework.core.crud.StaffitMapper;
 import com.diegotobalina.framework.customizable.entities.example.infrastructure.controller.dto.input.ExampleInputDTO;
 import com.diegotobalina.framework.customizable.entities.example.infrastructure.controller.dto.output.BaseExampleOutputDTO;
 import com.diegotobalina.framework.customizable.entities.example.infrastructure.controller.dto.output.ExampleOutputDTO;
-import com.diegotobalina.framework.provided.responses.StyleEnum;
 import org.mapstruct.Mapper;
-import org.mapstruct.Mappings;
-import org.mapstruct.factory.Mappers;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.Pageable;
-
-import java.util.List;
 
 @Mapper
-public interface ExampleMapper {
+public interface ExampleMapper extends StaffitMapper<Example, ExampleInputDTO, BaseExampleOutputDTO, ExampleOutputDTO> {
+    default Example getEntityInstance() {
+        return new Example();
+    }
 
-  ExampleMapper INSTANCE = Mappers.getMapper(ExampleMapper.class);
+    default BaseExampleOutputDTO getBaseOutputDTOInstance() {
+        return new BaseExampleOutputDTO();
+    }
 
-  @Mappings({})
-  Example toExample(ExampleInputDTO exampleInputDTO);
-
-  @Mappings({})
-  BaseExampleOutputDTO toBaseExampleOutputDTO(Example example);
-
-  @Mappings({})
-  ExampleOutputDTO toExampleOutputDTO(Example example);
-
-  default PageImpl<BaseExampleOutputDTO> toExampleOutputDTOS(
-      StyleEnum style, Pageable pageable, Page<Example> examples) {
-    List<BaseExampleOutputDTO> exampleOutputDTOS = toExampleOutputDTOS(style, examples);
-    return new PageImpl<>(exampleOutputDTOS, pageable, examples.getTotalElements());
-  }
-
-  default List<BaseExampleOutputDTO> toExampleOutputDTOS(StyleEnum style, Page<Example> examples) {
-    return examples.getContent().stream()
-        .map(example -> toExampleOutputDTO(style, example))
-        .toList();
-  }
-
-  default BaseExampleOutputDTO toExampleOutputDTO(StyleEnum style, Example example) {
-    return style.equals(StyleEnum.BASE)
-        ? ExampleMapper.INSTANCE.toBaseExampleOutputDTO(example)
-        : ExampleMapper.INSTANCE.toExampleOutputDTO(example);
-  }
+    default ExampleOutputDTO getOutputDTOInstance() {
+        return new ExampleOutputDTO();
+    }
 }

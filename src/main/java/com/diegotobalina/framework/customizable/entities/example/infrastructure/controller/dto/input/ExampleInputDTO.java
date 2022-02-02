@@ -2,6 +2,7 @@
 
 package com.diegotobalina.framework.customizable.entities.example.infrastructure.controller.dto.input;
 
+import com.diegotobalina.framework.core.crud.StaffitInputDTO;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -12,6 +13,10 @@ import java.io.Serializable;
 @Setter
 @ToString(callSuper = true)
 @ExampleInputDTOConstraint
-public class ExampleInputDTO implements Serializable {
-  /* FIELDS */
+public class ExampleInputDTO extends StaffitInputDTO implements Serializable {
+
+    protected String name;
+    protected String description;
+    protected String email;
+
 }

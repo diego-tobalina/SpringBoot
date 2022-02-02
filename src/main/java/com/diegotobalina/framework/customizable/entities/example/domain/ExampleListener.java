@@ -9,24 +9,24 @@ import javax.persistence.*;
 @Component
 public class ExampleListener {
 
-  @PrePersist
-  public void prePersist(Example example) {/* empty */}
+    @PrePersist
+    public void prePersist(Example example) {/* implement */}
 
-  @PreUpdate
-  public void preUpdate(Example example) {/* empty */}
+    @PreUpdate
+    public void preUpdate(Example example) {/* implement */}
 
-  @PreRemove
-  public void preRemove(Example example) {/* empty */}
+    @PreRemove
+    public void preRemove(Example example) {/* implement */}
 
-  @PostLoad
-  public void postLoad(Example example) {/* empty */}
+    @PostLoad
+    public void postLoad(Example example) {/* implement */}
 
-  @PostPersist
-  public void postPersist(Example example) {/* empty */}
+    @PostPersist
+    public void postPersist(Example example) {/* implement */}
 
-  @PostUpdate
-  public void postUpdate(Example example) {/* empty */}
+    @PostUpdate
+    public void postUpdate(Example example) {/* implement */}
 
-  @PostRemove
-  public void postRemove(Example example) {/* empty */}
+    @PostRemove
+    public void postRemove(Example example) {/* implement */}
 }

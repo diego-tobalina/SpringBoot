@@ -2,41 +2,29 @@
 
 package com.diegotobalina.framework.customizable.entities.example.domain;
 
-import com.diegotobalina.framework.provided.interfaces.entity.CustomEntity;
-import com.diegotobalina.framework.provided.interfaces.entity.CustomEntityListener;
+import com.diegotobalina.framework.core.crud.StaffitEntity;
 import lombok.*;
-import org.hibernate.annotations.Filter;
-import org.hibernate.annotations.FilterDef;
-import org.hibernate.annotations.ParamDef;
-import org.hibernate.envers.Audited;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.EntityListeners;
+import javax.persistence.Table;
 
-@Setter
 @Getter
+@Setter
 @Entity
-@Audited
 @Builder
-@ToString
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "O_MSTR_EXAMPLE")
-@FilterDef(
-    name = "tenantFilter",
-    parameters = {@ParamDef(name = "tenantId", type = "string")})
-@Filter(name = "tenantFilter", condition = "tenant_id = :tenantId")
-@EntityListeners({CustomEntityListener.class, ExampleListener.class})
-public class Example extends CustomEntity {
+@Table(name = "o_mstr_example")
+@EntityListeners(ExampleListener.class)
+public class Example extends StaffitEntity {
 
-  @Id
-  @GeneratedValue
-  @Column(name = "ID")
-  protected Long id;
+    protected String name;
+    protected String description;
+    protected String email;
 
-  /* FIELDS */
-
-  @Override
-  public String getNotValidCause() {
-    return null;
-  }
+    @Override
+    public String getNotValidCause() {
+        return null;
+    }
 }

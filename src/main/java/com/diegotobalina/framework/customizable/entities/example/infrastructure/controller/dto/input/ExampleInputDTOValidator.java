@@ -11,16 +11,16 @@ import javax.validation.ConstraintValidatorContext;
 @Component
 @AllArgsConstructor
 public class ExampleInputDTOValidator
-    implements ConstraintValidator<ExampleInputDTOConstraint, ExampleInputDTO> {
+        implements ConstraintValidator<ExampleInputDTOConstraint, ExampleInputDTO> {
 
-  @Override
-  public void initialize(ExampleInputDTOConstraint constraintAnnotation) {
-    // empty
-  }
+    @Override
+    public void initialize(ExampleInputDTOConstraint constraintAnnotation) {
+        // empty
+    }
 
-  @Override
-  public boolean isValid(
-      ExampleInputDTO exampleInputDTO, ConstraintValidatorContext constraintValidatorContext) {
-    return true;
-  }
+    @Override
+    public boolean isValid(
+            ExampleInputDTO exampleInputDTO, ConstraintValidatorContext constraintValidatorContext) {
+        return true;
+    }
 }
