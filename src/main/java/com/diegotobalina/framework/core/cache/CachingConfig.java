@@ -10,8 +10,8 @@ import org.springframework.context.annotation.Configuration;
 @EnableCaching
 public class CachingConfig {
 
-    @Bean("customKeyGenerator")
-    public KeyGenerator keyGenerator() {
-        return new CustomKeyGenerator();
-    }
+  @Bean("customKeyGenerator")
+  public KeyGenerator keyGenerator() {
+    return new CustomKeyGenerator();
+  }
 }

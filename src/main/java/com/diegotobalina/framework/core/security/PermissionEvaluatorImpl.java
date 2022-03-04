@@ -14,22 +14,22 @@ import java.io.Serializable;
 @Profile("!local") // solo comprueba los permisos cuando no estás trabajando en local
 public class PermissionEvaluatorImpl implements PermissionEvaluator {
 
-    @Override
-    public boolean hasPermission(
-            Authentication authentication, Object accessType, Object requiredPermission) {
-        var requiredPermissionString = requiredPermission.toString();
-        var authenticationImpl = (AuthenticationImpl) authentication.getPrincipal();
-        return authenticationImpl.hasCredential(requiredPermissionString);
-    }
+  @Override
+  public boolean hasPermission(
+      Authentication authentication, Object accessType, Object requiredPermission) {
+    var requiredPermissionString = requiredPermission.toString();
+    var authenticationImpl = (AuthenticationImpl) authentication.getPrincipal();
+    return authenticationImpl.hasCredential(requiredPermissionString);
+  }
 
-    @Override
-    public boolean hasPermission(
-            Authentication authentication,
-            Serializable serializable,
-            String targetType,
-            Object permission) {
-        var requiredPermissionString = permission.toString();
-        var authenticationImpl = (AuthenticationImpl) authentication.getPrincipal();
-        return authenticationImpl.hasCredential(requiredPermissionString);
-    }
+  @Override
+  public boolean hasPermission(
+      Authentication authentication,
+      Serializable serializable,
+      String targetType,
+      Object permission) {
+    var requiredPermissionString = permission.toString();
+    var authenticationImpl = (AuthenticationImpl) authentication.getPrincipal();
+    return authenticationImpl.hasCredential(requiredPermissionString);
+  }
 }

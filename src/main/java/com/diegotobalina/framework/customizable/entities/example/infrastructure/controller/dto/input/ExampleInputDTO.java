@@ -2,7 +2,7 @@
 
 package com.diegotobalina.framework.customizable.entities.example.infrastructure.controller.dto.input;
 
-import com.diegotobalina.framework.core.crud.StaffitInputDTO;
+import com.diegotobalina.framework.core.crud.BaseInputDTO;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -13,10 +13,9 @@ import java.io.Serializable;
 @Setter
 @ToString(callSuper = true)
 @ExampleInputDTOConstraint
-public class ExampleInputDTO extends StaffitInputDTO implements Serializable {
+public class ExampleInputDTO extends BaseInputDTO implements Serializable {
 
-    protected String name;
-    protected String description;
-    protected String email;
-
+  protected String name;
+  protected String description;
+  protected String email;
 }

@@ -9,5 +9,4 @@ import org.springframework.security.config.annotation.method.configuration.Globa
  */
 @Configuration(proxyBeanMethods = false)
 @EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true, jsr250Enabled = true)
-public class MethodSecurityConfigurer extends GlobalMethodSecurityConfiguration {
-}
+public class MethodSecurityConfigurer extends GlobalMethodSecurityConfiguration {}

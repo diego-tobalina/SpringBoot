@@ -2,9 +2,9 @@
 
 package com.diegotobalina.framework.customizable.entities.example.application;
 
+import com.diegotobalina.framework.core.crud.services.IBaseService;
 import com.diegotobalina.framework.customizable.entities.example.domain.Example;
-import com.diegotobalina.framework.core.crud.services.ICrudService;
 import org.springframework.stereotype.Service;
 
 @Service
-public class ExampleServiceImpl implements ICrudService<Example> {}
+public class ExampleServiceImpl implements IBaseService<Example> {}

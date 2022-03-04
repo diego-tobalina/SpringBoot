@@ -20,11 +20,11 @@ import java.util.UUID;
 @Order(Ordered.HIGHEST_PRECEDENCE)
 public class RequestIdFilter extends OncePerRequestFilter {
 
-    @Override
-    protected void doFilterInternal(
-            @NotNull HttpServletRequest req, HttpServletResponse res, FilterChain chain)
-            throws ServletException, IOException {
-        res.setHeader("X-Request-Id", UUID.randomUUID().toString());
-        chain.doFilter(req, res);
-    }
+  @Override
+  protected void doFilterInternal(
+      @NotNull HttpServletRequest req, HttpServletResponse res, FilterChain chain)
+      throws ServletException, IOException {
+    res.setHeader("X-Request-Id", UUID.randomUUID().toString());
+    chain.doFilter(req, res);
+  }
 }

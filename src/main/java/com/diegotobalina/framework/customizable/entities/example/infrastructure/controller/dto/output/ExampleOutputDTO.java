@@ -9,5 +9,4 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString(callSuper = true)
-public class ExampleOutputDTO extends BaseExampleOutputDTO {
-}
+public class ExampleOutputDTO extends BaseExampleOutputDTO {}

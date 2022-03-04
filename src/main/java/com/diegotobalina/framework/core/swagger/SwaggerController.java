@@ -14,8 +14,8 @@ import java.io.IOException;
 @Api(tags = "Swagger")
 public class SwaggerController {
 
-    @GetMapping(value = "/")
-    public void redirect(final HttpServletResponse response) throws IOException {
-        response.sendRedirect("/swagger-ui/index.html");
-    }
+  @GetMapping(value = "/")
+  public void redirect(final HttpServletResponse response) throws IOException {
+    response.sendRedirect("/swagger-ui/index.html");
+  }
 }

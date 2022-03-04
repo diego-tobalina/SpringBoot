@@ -7,7 +7,9 @@ import javax.servlet.WriteListener;
 import java.io.IOException;
 import java.io.OutputStream;
 
-/** @author diegotobalina created on 24/06/2020 */
+/**
+ * @author diegotobalina created on 24/06/2020
+ */
 public class TeeServletOutputStream extends ServletOutputStream {
 
   private final TeeOutputStream targetStream;

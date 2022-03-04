@@ -17,13 +17,13 @@ import java.io.IOException;
 @AllArgsConstructor
 public class AuthenticationFilter extends OncePerRequestFilter {
 
-    private final AuthenticationManager authenticationManager;
+  private final AuthenticationManager authenticationManager;
 
-    @Override
-    protected void doFilterInternal(
-            HttpServletRequest req, HttpServletResponse res, FilterChain chain)
-            throws ServletException, IOException {
-        authenticationManager.authenticate(req);
-        chain.doFilter(req, res);
-    }
+  @Override
+  protected void doFilterInternal(
+      HttpServletRequest req, HttpServletResponse res, FilterChain chain)
+      throws ServletException, IOException {
+    authenticationManager.authenticate(req);
+    chain.doFilter(req, res);
+  }
 }

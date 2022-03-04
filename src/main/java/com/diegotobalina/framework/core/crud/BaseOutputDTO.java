@@ -12,6 +12,4 @@ import java.io.Serializable;
 @Getter
 @Setter
 @ToString
-public abstract class StaffitBaseOutputDTO implements Serializable, EntityMetadata {
-
-}
+public abstract class BaseOutputDTO implements Serializable, EntityMetadata {}

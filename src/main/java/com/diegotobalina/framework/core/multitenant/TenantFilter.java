@@ -20,49 +20,56 @@ import java.io.IOException;
 @Component
 public class TenantFilter extends OncePerRequestFilter {
 
-    private final AuthenticationManager authenticationManager;
+  private final AuthenticationManager authenticationManager;
 
-    public TenantFilter(AuthenticationManager authenticationManager) {
-        this.authenticationManager = authenticationManager;
+  public TenantFilter(AuthenticationManager authenticationManager) {
+    this.authenticationManager = authenticationManager;
+  }
+
+  @Override
+  @SneakyThrows
+  protected void doFilterInternal(
+      HttpServletRequest req, @NotNull HttpServletResponse res, @NotNull FilterChain chain) {
+
+    // solo las rutas que contengan /api tienen filtro de tenant
+    if (!req.getRequestURI().contains("/api/")) {
+      chain.doFilter(req, res);
+      return;
     }
 
-    @Override
-    @SneakyThrows
-    protected void doFilterInternal(
-            HttpServletRequest req, @NotNull HttpServletResponse res, @NotNull FilterChain chain) {
-
-        // solo las rutas que contengan /api tienen filtro de tenant
-        if (!req.getRequestURI().contains("/api/")) {
-            chain.doFilter(req, res);
-            return;
-        }
-
-        // comprueba que el usuario ha elegido un tenant (tenant por defecto: "default")
-        String tenantID = req.getHeader("X-Tenant-Id");
-        if (tenantID == null || tenantID.isBlank()) {
-            sendError(res, HttpStatus.UNAUTHORIZED, new MissingTenantException("Missing X-Tenant-Id Header"));
-            return;
-        }
-
-        // comprueba que el usuario pueda acceder al tenant
-        if (authenticationManager.isAuthenticated()) {
-            AuthenticationImpl authentication = (AuthenticationImpl) authenticationManager.getAuthenticated();
-            if (!authentication.hasTenant(tenantID)) {
-                sendError(res, HttpStatus.FORBIDDEN, new ForbiddenTenantException("Forbidden tenant for this user"));
-                return;
-            }
-        }
-
-        // cambia el contexto con el nuevo tenant
-        TenantContext.setCurrentTenant(tenantID);
-        chain.doFilter(req, res);
-        TenantContext.clear();
+    // comprueba que el usuario ha elegido un tenant (tenant por defecto: "default")
+    String tenantID = req.getHeader("X-Tenant-Id");
+    if (tenantID == null || tenantID.isBlank()) {
+      sendError(
+          res, HttpStatus.UNAUTHORIZED, new MissingTenantException("Missing X-Tenant-Id Header"));
+      return;
     }
 
-    private void sendError(@NotNull HttpServletResponse res, HttpStatus badRequest, RuntimeException runtimeException)
-            throws IOException {
-        int badRequestStatus = badRequest.value();
-        ErrorResponse errorResponse = new ErrorResponse(runtimeException, badRequestStatus).printMessage();
-        new PowerResponse(res).sendJson(errorResponse, badRequestStatus);
+    // comprueba que el usuario pueda acceder al tenant
+    if (authenticationManager.isAuthenticated()) {
+      AuthenticationImpl authentication =
+          (AuthenticationImpl) authenticationManager.getAuthenticated();
+      if (!authentication.hasTenant(tenantID)) {
+        sendError(
+            res,
+            HttpStatus.FORBIDDEN,
+            new ForbiddenTenantException("Forbidden tenant for this user"));
+        return;
+      }
     }
+
+    // cambia el contexto con el nuevo tenant
+    TenantContext.setCurrentTenant(tenantID);
+    chain.doFilter(req, res);
+    TenantContext.clear();
+  }
+
+  private void sendError(
+      @NotNull HttpServletResponse res, HttpStatus badRequest, RuntimeException runtimeException)
+      throws IOException {
+    int badRequestStatus = badRequest.value();
+    ErrorResponse errorResponse =
+        new ErrorResponse(runtimeException, badRequestStatus).printMessage();
+    new PowerResponse(res).sendJson(errorResponse, badRequestStatus);
+  }
 }

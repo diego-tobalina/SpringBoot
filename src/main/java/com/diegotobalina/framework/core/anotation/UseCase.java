@@ -13,5 +13,4 @@ import java.lang.annotation.Target;
 @Target({ElementType.FIELD, ElementType.PARAMETER, ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
 @Service
-public @interface UseCase {
-}
+public @interface UseCase {}

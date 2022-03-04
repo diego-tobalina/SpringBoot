@@ -17,37 +17,34 @@ import java.util.regex.Pattern;
 @EqualsAndHashCode
 public class HashableString {
 
-    private String content;
+  private String content;
 
-    public HashableString(String content) {
-        this.content = content;
-    }
+  public HashableString(String content) {
+    this.content = content;
+  }
 
-    /**
-     * Reemplaza el content de l objeto por el hash del mismo
-     */
-    public void hash(int strength) {
-        if (isHashed()) return;
-        var coder = new BCryptPasswordEncoder(strength);
-        this.content = coder.encode(this.content);
-    }
+  /** Reemplaza el content de l objeto por el hash del mismo */
+  public void hash(int strength) {
+    if (isHashed()) return;
+    var coder = new BCryptPasswordEncoder(strength);
+    this.content = coder.encode(this.content);
+  }
 
-    /**
-     * Devuelve true en el caso de que el content sea un hash
-     */
-    public boolean isHashed() {
-        var regex = "^\\$2[ayb]\\$.{56}$";
-        var p = Pattern.compile(regex);
-        var m = p.matcher(this.content);
-        return m.matches();
-    }
+  /** Devuelve true en el caso de que el content sea un hash */
+  public boolean isHashed() {
+    var regex = "^\\$2[ayb]\\$.{56}$";
+    var p = Pattern.compile(regex);
+    var m = p.matcher(this.content);
+    return m.matches();
+  }
 
-    /**
-     * Devuelve true en el caso de que el content sea un hash y coincida con el hash del texto plano pasado por parámetro
-     */
-    public boolean doHashMatch(String plainText) {
-        if (!isHashed()) this.hash(6);
-        var encoder = new BCryptPasswordEncoder();
-        return encoder.matches(plainText, this.content);
-    }
+  /**
+   * Devuelve true en el caso de que el content sea un hash y coincida con el hash del texto plano
+   * pasado por parámetro
+   */
+  public boolean doHashMatch(String plainText) {
+    if (!isHashed()) this.hash(6);
+    var encoder = new BCryptPasswordEncoder();
+    return encoder.matches(plainText, this.content);
+  }
 }

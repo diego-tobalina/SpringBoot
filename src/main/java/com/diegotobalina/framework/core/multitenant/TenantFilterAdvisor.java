@@ -17,28 +17,23 @@ import javax.persistence.PersistenceContext;
 @Component
 public class TenantFilterAdvisor {
 
-    @PersistenceContext
-    private EntityManager entityManager;
+  @PersistenceContext private EntityManager entityManager;
 
-    public TenantFilterAdvisor() {
+  public TenantFilterAdvisor() {}
+
+  @Pointcut(value = "@annotation(com.diegotobalina.framework.core.multitenant.MultiTenant)")
+  public void methodAnnotatedWithMultiTenant() {}
+
+  @Pointcut(value = "execution(public * * (..))")
+  public void allPublicMethods() {}
+
+  @Around(value = "methodAnnotatedWithMultiTenant() && allPublicMethods()")
+  public Object enableTenantFilter(ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
+    if (entityManager != null) {
+      Session session = entityManager.unwrap(Session.class);
+      Filter filter = session.enableFilter("tenantFilter");
+      filter.setParameter("tenantId", TenantContext.getCurrentTenant());
     }
-
-    @Pointcut(value = "@annotation(com.diegotobalina.framework.core.multitenant.MultiTenant)")
-    public void methodAnnotatedWithMultiTenant() {
-    }
-
-    @Pointcut(value = "execution(public * * (..))")
-    public void allPublicMethods() {
-    }
-
-    @Around(value = "methodAnnotatedWithMultiTenant() && allPublicMethods()")
-    public Object enableTenantFilter(ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
-        if (entityManager != null) {
-            Session session = entityManager.unwrap(Session.class);
-            Filter filter = session.enableFilter("tenantFilter");
-            filter.setParameter("tenantId", TenantContext.getCurrentTenant());
-        }
-        return proceedingJoinPoint.proceed();
-    }
-
+    return proceedingJoinPoint.proceed();
+  }
 }

@@ -11,7 +11,9 @@ import java.io.PrintWriter;
 import java.util.Collection;
 import java.util.Locale;
 
-/** @author diegotobalina created on 24/06/2020 */
+/**
+ * @author diegotobalina created on 24/06/2020
+ */
 public class BufferedResponseWrapper implements HttpServletResponse {
 
   HttpServletResponse original;

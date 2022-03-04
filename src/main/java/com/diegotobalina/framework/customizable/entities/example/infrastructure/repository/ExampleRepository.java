@@ -2,10 +2,9 @@
 
 package com.diegotobalina.framework.customizable.entities.example.infrastructure.repository;
 
-import com.diegotobalina.framework.core.crud.StaffitRepository;
+import com.diegotobalina.framework.core.crud.IBaseRepository;
 import com.diegotobalina.framework.customizable.entities.example.domain.Example;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface ExampleRepository extends StaffitRepository<Example> {
-}
+public interface ExampleRepository extends IBaseRepository<Example> {}

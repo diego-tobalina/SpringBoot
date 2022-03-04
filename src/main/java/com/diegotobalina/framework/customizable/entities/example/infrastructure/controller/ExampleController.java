@@ -2,10 +2,10 @@
 
 package com.diegotobalina.framework.customizable.entities.example.infrastructure.controller;
 
-import com.diegotobalina.framework.core.crud.StaffitController;
-import com.diegotobalina.framework.core.crud.StaffitMapper;
-import com.diegotobalina.framework.core.crud.StaffitRepository;
-import com.diegotobalina.framework.core.crud.services.ICrudService;
+import com.diegotobalina.framework.core.crud.BaseController;
+import com.diegotobalina.framework.core.crud.IBaseMapper;
+import com.diegotobalina.framework.core.crud.IBaseRepository;
+import com.diegotobalina.framework.core.crud.services.IBaseService;
 import com.diegotobalina.framework.core.crud.usecases.ICreateUseCase;
 import com.diegotobalina.framework.core.crud.usecases.IDeleteUseCase;
 import com.diegotobalina.framework.core.crud.usecases.IFindUseCase;
@@ -34,52 +34,53 @@ import org.springframework.web.bind.annotation.RestController;
 @AllArgsConstructor
 @Api(tags = "Example")
 @RequestMapping("/api/v0/examples")
-public class ExampleController extends StaffitController<Example, ExampleInputDTO, BaseExampleOutputDTO, ExampleOutputDTO> {
+public class ExampleController
+    extends BaseController<Example, ExampleInputDTO, BaseExampleOutputDTO, ExampleOutputDTO> {
 
-    private final IFindExampleUseCase findExampleUseCase;
-    private final ICreateExampleUseCase createUseCase;
-    private final IUpdateExampleUseCase updateUseCase;
-    private final IDeleteExampleUseCase deleteUseCase;
-    private final ExampleRepository exampleRepository;
-    private final ExampleServiceImpl exampleServiceImpl;
+  private final IFindExampleUseCase findExampleUseCase;
+  private final ICreateExampleUseCase createUseCase;
+  private final IUpdateExampleUseCase updateUseCase;
+  private final IDeleteExampleUseCase deleteUseCase;
+  private final ExampleRepository exampleRepository;
+  private final ExampleServiceImpl exampleServiceImpl;
 
-    @Override
-    protected StaffitRepository getRepository() {
-        return this.exampleRepository;
-    }
+  @Override
+  protected Class<?> getSpecificationClass() {
+    return ExampleSpecification.class;
+  }
 
-    @Override
-    protected Class<?> getSpecificationClass() {
-        return ExampleSpecification.class;
-    }
+  @Override
+  protected IBaseMapper getMapper() {
+    return Mappers.getMapper(ExampleMapper.class);
+  }
 
-    @Override
-    protected StaffitMapper getMapper() {
-        return Mappers.getMapper(ExampleMapper.class);
-    }
+  @Override
+  protected IFindUseCase getFindUseCase() {
+    return findExampleUseCase;
+  }
 
-    @Override
-    protected IFindUseCase getFindUseCase() {
-        return findExampleUseCase;
-    }
+  @Override
+  protected ICreateUseCase getCreateUseCase() {
+    return createUseCase;
+  }
 
-    @Override
-    protected ICreateUseCase getCreateUseCase() {
-        return createUseCase;
-    }
+  @Override
+  protected IUpdateUseCase getUpdateUseCase() {
+    return updateUseCase;
+  }
 
-    @Override
-    protected IUpdateUseCase getUpdateUseCase() {
-        return updateUseCase;
-    }
+  @Override
+  protected IDeleteUseCase getDeleteUseCase() {
+    return deleteUseCase;
+  }
 
-    @Override
-    protected IDeleteUseCase getDeleteUseCase() {
-        return deleteUseCase;
-    }
+  @Override
+  protected IBaseService getService() {
+    return exampleServiceImpl;
+  }
 
-    @Override
-    protected ICrudService getService() {
-        return exampleServiceImpl;
-    }
+  @Override
+  protected IBaseRepository getRepository() {
+    return this.exampleRepository;
+  }
 }

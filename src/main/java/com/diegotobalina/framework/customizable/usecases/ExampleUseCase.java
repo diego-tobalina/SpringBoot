@@ -24,54 +24,56 @@ import java.lang.annotation.Target;
 @RequestMapping("/api/v0/use-case/")
 public class ExampleUseCase {
 
-    @Getter
-    @Setter
-    @ToString(callSuper = true)
-    @ExampleUseCaseInputDTOConstraint
-    static class ExampleUseCaseInputDTO {
-        /* implement */
+  @Getter
+  @Setter
+  @ToString(callSuper = true)
+  @ExampleUseCaseInputDTOConstraint
+  static class ExampleUseCaseInputDTO {
+    /* implement */
+  }
+
+  @Getter
+  @Setter
+  @ToString()
+  @AllArgsConstructor
+  static class ExampleUseCaseOutputDTO {
+    /* implement */
+  }
+
+  @ResponseStatus(HttpStatus.OK)
+  @PostMapping("/example")
+  @Transactional(rollbackFor = Exception.class)
+  public ExampleUseCaseOutputDTO useCase(@RequestBody @Valid ExampleUseCaseInputDTO inputDTO) {
+    /* implement */
+    return new ExampleUseCaseOutputDTO();
+  }
+
+  @Component
+  @AllArgsConstructor
+  static class ExampleUseCaseInputDTOValidator
+      implements ConstraintValidator<ExampleUseCaseInputDTOConstraint, ExampleUseCaseInputDTO> {
+
+    @Override
+    public boolean isValid(
+        ExampleUseCaseInputDTO inputDTO, ConstraintValidatorContext constraintValidatorContext) {
+      /* implement */
+      return true;
     }
 
-    @Getter
-    @Setter
-    @ToString()
-    @AllArgsConstructor
-    static class ExampleUseCaseOutputDTO {
-        /* implement */
+    @Override
+    public void initialize(ExampleUseCaseInputDTOConstraint constraintAnnotation) {
+      /* keep empty */
     }
+  }
 
-    @ResponseStatus(HttpStatus.OK)
-    @PostMapping("/example")
-    @Transactional(rollbackFor = Exception.class)
-    public ExampleUseCaseOutputDTO useCase(@RequestBody @Valid ExampleUseCaseInputDTO inputDTO) {
-        return new ExampleUseCaseOutputDTO();
-    }
+  @Constraint(validatedBy = ExampleUseCaseInputDTOValidator.class)
+  @Target(ElementType.TYPE)
+  @Retention(RetentionPolicy.RUNTIME)
+  @interface ExampleUseCaseInputDTOConstraint {
+    String message() default "El formato del 'InputDTO' no es válido";
 
-    @Component
-    @AllArgsConstructor
-    static class ExampleUseCaseInputDTOValidator
-            implements ConstraintValidator<ExampleUseCaseInputDTOConstraint, ExampleUseCaseInputDTO> {
+    Class<?>[] groups() default {};
 
-        @Override
-        public boolean isValid(
-                ExampleUseCaseInputDTO inputDTO, ConstraintValidatorContext constraintValidatorContext) {
-            return true;
-        }
-
-        @Override
-        public void initialize(ExampleUseCaseInputDTOConstraint constraintAnnotation) {
-            /* keep empty */
-        }
-    }
-
-    @Constraint(validatedBy = ExampleUseCaseInputDTOValidator.class)
-    @Target(ElementType.TYPE)
-    @Retention(RetentionPolicy.RUNTIME)
-    @interface ExampleUseCaseInputDTOConstraint {
-        String message() default "El formato del 'InputDTO' no es válido";
-
-        Class<?>[] groups() default {};
-
-        Class<? extends Payload>[] payload() default {};
-    }
+    Class<? extends Payload>[] payload() default {};
+  }
 }

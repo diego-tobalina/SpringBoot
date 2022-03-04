@@ -13,23 +13,22 @@ import java.util.Optional;
 @Component
 public class AuditorAwareImpl implements AuditorAware<String> {
 
+  public UserDetailsService userDetailsService;
 
-    public UserDetailsService userDetailsService;
+  public AuditorAwareImpl(UserDetailsService userDetailsService) {
+    this.userDetailsService = userDetailsService;
+  }
 
-    public AuditorAwareImpl(UserDetailsService userDetailsService) {
-        this.userDetailsService = userDetailsService;
+  @NotNull
+  @Override
+  public Optional<String> getCurrentAuditor() {
+    AuthenticationManager authenticationManager = new AuthenticationManager(userDetailsService);
+    if (!authenticationManager.isAuthenticated()) {
+      String anonymousIdentifier = authenticationManager.getAnonymousIdentifier();
+      return Optional.of(anonymousIdentifier);
     }
-
-    @NotNull
-    @Override
-    public Optional<String> getCurrentAuditor() {
-        AuthenticationManager authenticationManager = new AuthenticationManager(userDetailsService);
-        if (!authenticationManager.isAuthenticated()) {
-            String anonymousIdentifier = authenticationManager.getAnonymousIdentifier();
-            return Optional.of(anonymousIdentifier);
-        }
-        Authentication authenticated = authenticationManager.getAuthenticated();
-        AuthenticationImpl customUserDetails = (AuthenticationImpl) authenticated;
-        return Optional.of(customUserDetails.getUserId());
-    }
+    Authentication authenticated = authenticationManager.getAuthenticated();
+    AuthenticationImpl customUserDetails = (AuthenticationImpl) authenticated;
+    return Optional.of(customUserDetails.getUserId());
+  }
 }

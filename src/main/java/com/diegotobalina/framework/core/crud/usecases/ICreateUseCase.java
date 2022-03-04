@@ -2,19 +2,19 @@
 
 package com.diegotobalina.framework.core.crud.usecases;
 
-import com.diegotobalina.framework.core.crud.StaffitEntity;
-import com.diegotobalina.framework.core.crud.services.ICrudService;
+import com.diegotobalina.framework.core.crud.BaseEntity;
+import com.diegotobalina.framework.core.crud.services.IBaseService;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface ICreateUseCase<T extends StaffitEntity> {
-    default T create(T t, ICrudService<T> service, JpaRepository<T, Long> repository) {
-        preSave(t, service, repository);
-        T save = service.save(t, repository);
-        postSave(t, service, repository);
-        return save;
-    }
+public interface ICreateUseCase<T extends BaseEntity> {
+  default T create(T t, IBaseService<T> service, JpaRepository<T, Long> repository) {
+    preSave(t, service, repository);
+    T save = service.save(t, repository);
+    postSave(t, service, repository);
+    return save;
+  }
 
-    void preSave(T t, ICrudService<T> service, JpaRepository<T, Long> repository);
+  void preSave(T t, IBaseService<T> service, JpaRepository<T, Long> repository);
 
-    void postSave(T t, ICrudService<T> service, JpaRepository<T, Long> repository);
+  void postSave(T t, IBaseService<T> service, JpaRepository<T, Long> repository);
 }

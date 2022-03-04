@@ -5,7 +5,9 @@ import org.springframework.stereotype.Component;
 
 import javax.servlet.*;
 
-/** @author diegotobalina created on 24/06/2020 */
+/**
+ * @author diegotobalina created on 24/06/2020
+ */
 @Component
 @AllArgsConstructor
 public class RequestFilter implements Filter {

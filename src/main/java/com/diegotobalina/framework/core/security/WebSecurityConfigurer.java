@@ -24,30 +24,30 @@ import java.io.IOException;
 @AllArgsConstructor
 public class WebSecurityConfigurer extends WebSecurityConfigurerAdapter {
 
-    private final AuthenticationFilter authenticationFilter;
-    private static final String SECURED_REGEX = "/api/**";
+  private static final String SECURED_REGEX = "/api/**";
+  private final AuthenticationFilter authenticationFilter;
 
-    @Override
-    protected void configure(HttpSecurity http) throws Exception {
-        http.csrf().disable();
-        http.httpBasic().disable();
-        http.formLogin().disable();
-        http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-        http.exceptionHandling().authenticationEntryPoint(this::unauthorized);
+  @Override
+  protected void configure(HttpSecurity http) throws Exception {
+    http.csrf().disable();
+    http.httpBasic().disable();
+    http.formLogin().disable();
+    http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+    http.exceptionHandling().authenticationEntryPoint(this::unauthorized);
 
-        http.antMatcher(SECURED_REGEX)
-                .authorizeRequests()
-                .anyRequest()
-                .authenticated()
-                .and()
-                .addFilterBefore(authenticationFilter, AnonymousAuthenticationFilter.class);
-    }
+    http.antMatcher(SECURED_REGEX)
+        .authorizeRequests()
+        .anyRequest()
+        .authenticated()
+        .and()
+        .addFilterBefore(authenticationFilter, AnonymousAuthenticationFilter.class);
+  }
 
-    private void unauthorized(
-            HttpServletRequest req, HttpServletResponse res, AuthenticationException e)
-            throws IOException {
-        int unauthorizedStatus = HttpStatus.UNAUTHORIZED.value();
-        ErrorResponse errorResponse = new ErrorResponse(e, unauthorizedStatus).printMessage();
-        new PowerResponse(res).sendJson(errorResponse, unauthorizedStatus);
-    }
+  private void unauthorized(
+      HttpServletRequest req, HttpServletResponse res, AuthenticationException e)
+      throws IOException {
+    int unauthorizedStatus = HttpStatus.UNAUTHORIZED.value();
+    ErrorResponse errorResponse = new ErrorResponse(e, unauthorizedStatus).printMessage();
+    new PowerResponse(res).sendJson(errorResponse, unauthorizedStatus);
+  }
 }

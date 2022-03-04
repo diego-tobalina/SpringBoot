@@ -6,15 +6,14 @@ import org.springframework.stereotype.Component;
 @Component
 public class TenantResolver implements CurrentTenantIdentifierResolver {
 
-    @Override
-    public String resolveCurrentTenantIdentifier() {
-        String currentTenant = TenantContext.getCurrentTenant();
-        return currentTenant != null ? currentTenant : "default";
-    }
+  @Override
+  public String resolveCurrentTenantIdentifier() {
+    String currentTenant = TenantContext.getCurrentTenant();
+    return currentTenant != null ? currentTenant : "default";
+  }
 
-    @Override
-    public boolean validateExistingCurrentSessions() {
-        return true;
-    }
-
+  @Override
+  public boolean validateExistingCurrentSessions() {
+    return true;
+  }
 }

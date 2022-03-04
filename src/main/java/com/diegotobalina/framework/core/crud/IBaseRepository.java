@@ -7,5 +7,4 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.repository.NoRepositoryBean;
 
 @NoRepositoryBean
-public interface StaffitRepository<T> extends JpaRepository<T, Long>, JpaSpecificationExecutor<T> {
-}
+public interface IBaseRepository<T> extends JpaRepository<T, Long>, JpaSpecificationExecutor<T> {}

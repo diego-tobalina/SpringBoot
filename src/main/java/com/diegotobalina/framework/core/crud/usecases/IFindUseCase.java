@@ -2,26 +2,26 @@
 
 package com.diegotobalina.framework.core.crud.usecases;
 
-import com.diegotobalina.framework.core.crud.StaffitEntity;
-import com.diegotobalina.framework.core.crud.services.ICrudService;
+import com.diegotobalina.framework.core.crud.BaseEntity;
+import com.diegotobalina.framework.core.crud.services.IBaseService;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface IFindUseCase<T extends StaffitEntity> {
-    default T findById(long id, ICrudService<T> service, JpaRepository<T, Long> repository) {
-        preLoad(id, service, repository);
-        T t = service.findById(id, repository);
-        postLoad(t, service, repository);
-        return t;
-    }
+public interface IFindUseCase<T extends BaseEntity> {
+  default T findById(long id, IBaseService<T> service, JpaRepository<T, Long> repository) {
+    preLoad(id, service, repository);
+    T t = service.findById(id, repository);
+    postLoad(t, service, repository);
+    return t;
+  }
 
-    default T findByIdOrNull(long id, ICrudService<T> service, JpaRepository<T, Long> repository) {
-        preLoad(id, service, repository);
-        T t = service.findByIdOrNull(id, repository);
-        postLoad(t, service, repository);
-        return t;
-    }
+  default T findByIdOrNull(long id, IBaseService<T> service, JpaRepository<T, Long> repository) {
+    preLoad(id, service, repository);
+    T t = service.findByIdOrNull(id, repository);
+    postLoad(t, service, repository);
+    return t;
+  }
 
-    void preLoad(long id, ICrudService<T> service, JpaRepository<T, Long> repository);
+  void preLoad(long id, IBaseService<T> service, JpaRepository<T, Long> repository);
 
-    void postLoad(T t, ICrudService<T> service, JpaRepository<T, Long> repository);
+  void postLoad(T t, IBaseService<T> service, JpaRepository<T, Long> repository);
 }

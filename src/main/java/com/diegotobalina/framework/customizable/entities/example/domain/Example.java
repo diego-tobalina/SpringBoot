@@ -2,7 +2,7 @@
 
 package com.diegotobalina.framework.customizable.entities.example.domain;
 
-import com.diegotobalina.framework.core.crud.StaffitEntity;
+import com.diegotobalina.framework.core.crud.BaseEntity;
 import lombok.*;
 
 import javax.persistence.Entity;
@@ -17,14 +17,14 @@ import javax.persistence.Table;
 @AllArgsConstructor
 @Table(name = "o_mstr_example")
 @EntityListeners(ExampleListener.class)
-public class Example extends StaffitEntity {
+public class Example extends BaseEntity {
 
-    protected String name;
-    protected String description;
-    protected String email;
+  protected String name;
+  protected String description;
+  protected String email;
 
-    @Override
-    public String getNotValidCause() {
-        return null;
-    }
+  @Override
+  public String getNotValidCause() {
+    return null;
+  }
 }

@@ -2,9 +2,9 @@
 
 package com.diegotobalina.framework.customizable.entities.example.application;
 
+import com.diegotobalina.framework.core.crud.services.ICachedBaseService;
 import com.diegotobalina.framework.customizable.entities.example.domain.Example;
-import com.diegotobalina.framework.core.crud.services.ICachedCrudService;
 import org.springframework.stereotype.Service;
 
 @Service
-public class ExampleServiceImplCached implements ICachedCrudService<Example> {}
+public class ExampleServiceImplCached implements ICachedBaseService<Example> {}

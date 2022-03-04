@@ -21,19 +21,19 @@ import java.time.Instant;
 @EntityListeners(AuditingEntityListener.class)
 public class Auditable<U> {
 
-    @CreatedBy
-    @Column(name = "created_by")
-    private U createdBy;
+  @CreatedBy
+  @Column(name = "created_by")
+  private U createdBy;
 
-    @CreatedDate
-    @Column(name = "created_on")
-    private Instant createdOn;
+  @CreatedDate
+  @Column(name = "created_on")
+  private Instant createdOn;
 
-    @LastModifiedBy
-    @Column(name = "modified_by")
-    private U lastModifiedBy;
+  @LastModifiedBy
+  @Column(name = "modified_by")
+  private U lastModifiedBy;
 
-    @LastModifiedDate
-    @Column(name = "modified_on")
-    private Instant lastModifiedOn;
+  @LastModifiedDate
+  @Column(name = "modified_on")
+  private Instant lastModifiedOn;
 }

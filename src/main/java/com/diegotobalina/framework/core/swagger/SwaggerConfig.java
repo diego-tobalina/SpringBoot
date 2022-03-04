@@ -39,79 +39,74 @@ import static springfox.documentation.swagger.web.UiConfiguration.Constants.DEFA
 @EnableSwagger2
 public class SwaggerConfig implements WebMvcConfigurer {
 
+  private static final String AUTHORIZATION = "Authorization";
+  private static final String X_TENANT_ID = "X-Tenant-Id";
 
-    private static final String AUTHORIZATION = "Authorization";
-    private static final String X_TENANT_ID = "X-Tenant-Id";
+  @Bean
+  public Docket eDesignApi() {
 
+    List<SecurityScheme> securitySchemes = new ArrayList<>();
+    securitySchemes.add(new ApiKey(AUTHORIZATION, AUTHORIZATION, "header"));
+    securitySchemes.add(new ApiKey(X_TENANT_ID, X_TENANT_ID, "header"));
 
-    @Bean
-    public Docket eDesignApi() {
+    AuthorizationScope authorizationScope = new AuthorizationScope("global", "accessEverything");
+    AuthorizationScope[] authorizationScopes = new AuthorizationScope[] {authorizationScope};
 
-        List<SecurityScheme> securitySchemes = new ArrayList<>();
-        securitySchemes.add(new ApiKey(AUTHORIZATION, AUTHORIZATION, "header"));
-        securitySchemes.add(new ApiKey(X_TENANT_ID, X_TENANT_ID, "header"));
+    List<SecurityReference> securityReferences = new ArrayList<>();
+    securityReferences.add(new SecurityReference(AUTHORIZATION, authorizationScopes));
+    securityReferences.add(new SecurityReference(X_TENANT_ID, authorizationScopes));
 
-        AuthorizationScope authorizationScope = new AuthorizationScope("global", "accessEverything");
-        AuthorizationScope[] authorizationScopes = new AuthorizationScope[]{authorizationScope};
+    List<SecurityContext> securityContexts = new ArrayList<>();
+    securityContexts.add(SecurityContext.builder().securityReferences(securityReferences).build());
 
-        List<SecurityReference> securityReferences = new ArrayList<>();
-        securityReferences.add(new SecurityReference(AUTHORIZATION, authorizationScopes));
-        securityReferences.add(new SecurityReference(X_TENANT_ID, authorizationScopes));
+    return new Docket(DocumentationType.SWAGGER_2)
+        .apiInfo(new ApiInfoBuilder().title("Swagger").version("0.0.1").build())
+        .securityContexts(securityContexts)
+        .securitySchemes(securitySchemes)
+        .ignoredParameterTypes(Principal.class)
+        .ignoredParameterTypes(Pageable.class)
+        .enable(true)
+        .select()
+        .apis(RequestHandlerSelectors.basePackage("com.diegotobalina.framework"))
+        .paths(PathSelectors.any())
+        .build()
+        .pathMapping("/")
+        .directModelSubstitute(LocalDate.class, String.class)
+        .genericModelSubstitutes(ResponseEntity.class)
+        .useDefaultResponseMessages(false)
+        .enableUrlTemplating(false);
+  }
 
-        List<SecurityContext> securityContexts = new ArrayList<>();
-        securityContexts.add(SecurityContext.builder().securityReferences(securityReferences).build());
+  @Bean
+  UiConfiguration uiConfig() {
+    return UiConfigurationBuilder.builder()
+        .deepLinking(false)
+        .displayOperationId(false)
+        .defaultModelsExpandDepth(1)
+        .defaultModelExpandDepth(1)
+        .defaultModelRendering(EXAMPLE)
+        .displayRequestDuration(true)
+        .docExpansion(NONE)
+        .filter(false)
+        .maxDisplayedTags(0)
+        .operationsSorter(OperationsSorter.ALPHA)
+        .showExtensions(false)
+        .tagsSorter(TagsSorter.ALPHA)
+        .supportedSubmitMethods(DEFAULT_SUBMIT_METHODS)
+        .validatorUrl(null)
+        .build();
+  }
 
-        return new Docket(DocumentationType.SWAGGER_2)
-                .apiInfo(new ApiInfoBuilder().title("Swagger").version("0.0.1").build())
-                .securityContexts(securityContexts)
-                .securitySchemes(securitySchemes)
-                .ignoredParameterTypes(Principal.class)
-                .ignoredParameterTypes(Pageable.class)
-                .enable(true)
-                .select()
-                .apis(RequestHandlerSelectors.basePackage("com.diegotobalina.framework"))
-                .paths(PathSelectors.any())
-                .build()
-                .pathMapping("/")
-                .directModelSubstitute(LocalDate.class, String.class)
-                .genericModelSubstitutes(ResponseEntity.class)
-                .useDefaultResponseMessages(false)
-                .enableUrlTemplating(false);
-    }
+  @Override
+  public void addResourceHandlers(ResourceHandlerRegistry registry) {
+    registry
+        .addResourceHandler("/swagger-ui/**")
+        .addResourceLocations("classpath:/META-INF/resources/webjars/springfox-swagger-ui/")
+        .resourceChain(false);
+  }
 
-
-    @Bean
-    UiConfiguration uiConfig() {
-        return UiConfigurationBuilder.builder()
-                .deepLinking(false)
-                .displayOperationId(false)
-                .defaultModelsExpandDepth(1)
-                .defaultModelExpandDepth(1)
-                .defaultModelRendering(EXAMPLE)
-                .displayRequestDuration(true)
-                .docExpansion(NONE)
-                .filter(false)
-                .maxDisplayedTags(0)
-                .operationsSorter(OperationsSorter.ALPHA)
-                .showExtensions(false)
-                .tagsSorter(TagsSorter.ALPHA)
-                .supportedSubmitMethods(DEFAULT_SUBMIT_METHODS)
-                .validatorUrl(null)
-                .build();
-    }
-
-
-    @Override
-    public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry
-                .addResourceHandler("/swagger-ui/**")
-                .addResourceLocations("classpath:/META-INF/resources/webjars/springfox-swagger-ui/")
-                .resourceChain(false);
-    }
-
-    @Override
-    public void addViewControllers(ViewControllerRegistry registry) {
-        registry.addViewController("/swagger-ui/").setViewName("forward:/swagger-ui/index.html");
-    }
-
+  @Override
+  public void addViewControllers(ViewControllerRegistry registry) {
+    registry.addViewController("/swagger-ui/").setViewName("forward:/swagger-ui/index.html");
+  }
 }

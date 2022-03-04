@@ -13,22 +13,22 @@ import org.springframework.scheduling.config.ScheduledTaskRegistrar;
 @EnableScheduling
 public class ScheduledExceptionHandler implements SchedulingConfigurer {
 
-    private final ThreadPoolTaskScheduler taskScheduler;
+  private final ThreadPoolTaskScheduler taskScheduler;
 
-    public ScheduledExceptionHandler() {
-        var newTaskScheduler = new ThreadPoolTaskScheduler();
-        newTaskScheduler.setErrorHandler(this::processException);
-        newTaskScheduler.setThreadNamePrefix("@scheduled-");
-        newTaskScheduler.initialize();
-        this.taskScheduler = newTaskScheduler;
-    }
+  public ScheduledExceptionHandler() {
+    var newTaskScheduler = new ThreadPoolTaskScheduler();
+    newTaskScheduler.setErrorHandler(this::processException);
+    newTaskScheduler.setThreadNamePrefix("@scheduled-");
+    newTaskScheduler.initialize();
+    this.taskScheduler = newTaskScheduler;
+  }
 
-    @Override
-    public void configureTasks(ScheduledTaskRegistrar taskRegistrar) {
-        taskRegistrar.setScheduler(taskScheduler);
-    }
+  @Override
+  public void configureTasks(ScheduledTaskRegistrar taskRegistrar) {
+    taskRegistrar.setScheduler(taskScheduler);
+  }
 
-    private void processException(Throwable throwable) {
-        throwable.printStackTrace();
-    }
+  private void processException(Throwable throwable) {
+    throwable.printStackTrace();
+  }
 }

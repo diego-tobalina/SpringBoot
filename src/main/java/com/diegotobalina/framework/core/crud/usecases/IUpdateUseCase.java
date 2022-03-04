@@ -2,32 +2,32 @@
 
 package com.diegotobalina.framework.core.crud.usecases;
 
-import com.diegotobalina.framework.core.crud.StaffitEntity;
-import com.diegotobalina.framework.core.crud.services.ICrudService;
+import com.diegotobalina.framework.core.crud.BaseEntity;
+import com.diegotobalina.framework.core.crud.services.IBaseService;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.lang.reflect.Field;
 import java.util.Arrays;
 
-public interface IUpdateUseCase<T extends StaffitEntity> {
-    default T update(long id, Object o, ICrudService<T> service, JpaRepository<T, Long> repository) {
-        preLoad(id, o, service, repository);
-        T t = service.findById(id, repository);
-        preUpdate(t, o, service, repository);
-        Class<StaffitEntity> staffitEntityClass = StaffitEntity.class;
-        Field[] fields = staffitEntityClass.getFields();
-        t.update(o, Arrays.stream(fields).map(Field::getName).toArray(String[]::new));
-        preSave(t, o, service, repository);
-        T save = service.save(t, repository);
-        postSave(save, o, service, repository);
-        return save;
-    }
+public interface IUpdateUseCase<T extends BaseEntity> {
+  default T update(long id, Object o, IBaseService<T> service, JpaRepository<T, Long> repository) {
+    preLoad(id, o, service, repository);
+    T t = service.findById(id, repository);
+    preUpdate(t, o, service, repository);
+    Class<BaseEntity> baseEntityClass = BaseEntity.class;
+    Field[] fields = baseEntityClass.getFields();
+    t.update(o, Arrays.stream(fields).map(Field::getName).toArray(String[]::new));
+    preSave(t, o, service, repository);
+    T save = service.save(t, repository);
+    postSave(save, o, service, repository);
+    return save;
+  }
 
-    void preLoad(long id, Object o, ICrudService<T> service, JpaRepository<T, Long> repository);
+  void preLoad(long id, Object o, IBaseService<T> service, JpaRepository<T, Long> repository);
 
-    void preUpdate(T t, Object o, ICrudService<T> service, JpaRepository<T, Long> repository);
+  void preUpdate(T t, Object o, IBaseService<T> service, JpaRepository<T, Long> repository);
 
-    void preSave(T t, Object o, ICrudService<T> service, JpaRepository<T, Long> repository);
+  void preSave(T t, Object o, IBaseService<T> service, JpaRepository<T, Long> repository);
 
-    void postSave(T t, Object o, ICrudService<T> service, JpaRepository<T, Long> repository);
+  void postSave(T t, Object o, IBaseService<T> service, JpaRepository<T, Long> repository);
 }

@@ -7,7 +7,9 @@ import lombok.ToString;
 
 import java.util.UUID;
 
-/** @author diegotobalina created on 13/08/2020 */
+/**
+ * @author diegotobalina created on 13/08/2020
+ */
 @Getter
 @ToString
 @NoArgsConstructor

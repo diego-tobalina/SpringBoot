@@ -18,28 +18,29 @@ import java.util.concurrent.Executor;
 @Configuration(proxyBeanMethods = false)
 public class AsyncExceptionHandler implements AsyncConfigurer, AsyncUncaughtExceptionHandler {
 
-    @Bean(name = "applicationEventMulticaster")
-    public ApplicationEventMulticaster simpleApplicationEventMulticaster() {
-        var eventMulticaster = new SimpleApplicationEventMulticaster();
-        eventMulticaster.setTaskExecutor(new SimpleAsyncTaskExecutor());
-        return eventMulticaster;
-    }
+  @Bean(name = "applicationEventMulticaster")
+  public ApplicationEventMulticaster simpleApplicationEventMulticaster() {
+    var eventMulticaster = new SimpleApplicationEventMulticaster();
+    eventMulticaster.setTaskExecutor(new SimpleAsyncTaskExecutor());
+    return eventMulticaster;
+  }
 
-    @Override
-    public Executor getAsyncExecutor() {
-        var threadPoolTaskExecutor = new ThreadPoolTaskExecutor();
-        threadPoolTaskExecutor.setThreadNamePrefix("@async-");
-        threadPoolTaskExecutor.initialize();
-        return threadPoolTaskExecutor;
-    }
+  @Override
+  public Executor getAsyncExecutor() {
+    var threadPoolTaskExecutor = new ThreadPoolTaskExecutor();
+    threadPoolTaskExecutor.setThreadNamePrefix("@async-");
+    threadPoolTaskExecutor.initialize();
+    return threadPoolTaskExecutor;
+  }
 
-    @Override
-    public AsyncUncaughtExceptionHandler getAsyncUncaughtExceptionHandler() {
-        return new AsyncExceptionHandler();
-    }
+  @Override
+  public AsyncUncaughtExceptionHandler getAsyncUncaughtExceptionHandler() {
+    return new AsyncExceptionHandler();
+  }
 
-    @Override
-    public void handleUncaughtException(@NotNull Throwable throwable, @NotNull Method method, @NotNull Object... objects) {
-        throwable.printStackTrace();
-    }
+  @Override
+  public void handleUncaughtException(
+      @NotNull Throwable throwable, @NotNull Method method, @NotNull Object... objects) {
+    throwable.printStackTrace();
+  }
 }

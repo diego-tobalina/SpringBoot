@@ -18,32 +18,32 @@ import java.util.Map;
 @EqualsAndHashCode
 public class JwtManager {
 
-    private final byte[] key;
+  private final byte[] key;
 
-    public JwtManager(byte[] key) {
-        this.key = key;
-    }
+  public JwtManager(byte[] key) {
+    this.key = key;
+  }
 
-    public String generateBearerJwt(
-            String id, String subject, Map<String, Object> claims, long expirationIn) {
-        var issuedAt = new Date(System.currentTimeMillis());
-        var expiration = new Date(System.currentTimeMillis() + expirationIn);
-        return generateBearerJwt(id, subject, claims, issuedAt, expiration);
-    }
+  public String generateBearerJwt(
+      String id, String subject, Map<String, Object> claims, long expirationIn) {
+    var issuedAt = new Date(System.currentTimeMillis());
+    var expiration = new Date(System.currentTimeMillis() + expirationIn);
+    return generateBearerJwt(id, subject, claims, issuedAt, expiration);
+  }
 
-    public String generateBearerJwt(
-            String id, String subject, Map<String, Object> claims, Date issuedAt, Date expiration) {
-        return Jwts.builder()
-                .setId(id)
-                .setSubject(subject)
-                .setClaims(claims)
-                .setIssuedAt(issuedAt)
-                .setExpiration(expiration)
-                .signWith(SignatureAlgorithm.HS512, this.key)
-                .compact();
-    }
+  public String generateBearerJwt(
+      String id, String subject, Map<String, Object> claims, Date issuedAt, Date expiration) {
+    return Jwts.builder()
+        .setId(id)
+        .setSubject(subject)
+        .setClaims(claims)
+        .setIssuedAt(issuedAt)
+        .setExpiration(expiration)
+        .signWith(SignatureAlgorithm.HS512, this.key)
+        .compact();
+  }
 
-    public Claims getClaims(String jwt) {
-        return Jwts.parser().setSigningKey(this.key).parseClaimsJws(jwt).getBody();
-    }
+  public Claims getClaims(String jwt) {
+    return Jwts.parser().setSigningKey(this.key).parseClaimsJws(jwt).getBody();
+  }
 }

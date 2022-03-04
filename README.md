@@ -47,7 +47,9 @@ o_mstr_example_aud{
 }
 ```
 
-## 🏹 MultiTenant
+## 🏹 MultiTenant 
+
+( ❌ documentación desactualizada ❌)
 
 ```
 La aplicación permite la separación por Tenant mediante diferentes bases de datos
@@ -56,7 +58,7 @@ Cada nuevo tenant será una base de datos diferente pero siempre se utilizará e
 
 Para generar un nuevo tenant seguir los siguientes pasos:
 1. Crear una nueva base de datos
-2. Lanzar una instancia de la aplicación contra la base de datos para que genere las tablas iniciales (** NO HACER ESTAS MIGRACIONES EN PRODUCCIÓN)
+2. Generar la base de datos
 3. Añadir a la tabla "c_multitenant_datasource" del cluster principal una fila con los datos de la conexión
 4. Reiniciar la aplicación del cluster principal para que cargue los nuevos tenant
 
@@ -131,7 +133,9 @@ Guia de los modificadores
     Contains: represented by (=*substring*)
 ``````
 
-## 🔍 Añadir una relación entre entidades 1:N o N:1
+## 🔍 Añadir una relación entre entidades 1:N o N:1 
+
+( ❌ documentación de Mapstruct desactualizada ❌)
 
 ``````
 Para añadir una entidad 1:N se utilizarán como ejemplo las entidades Company y Department
@@ -194,12 +198,12 @@ node scripts/clone_example_usecase.js RemoveDepartmentFromCompanyUseCase
 10. Modificar en la clase "DepartmentMapper" el siguiente método:
 
   @Mappings({@Mapping(source = "department", target = "company", qualifiedByName = "company")})
-  DepartmentOutputDTO toDepartmentOutputDTO(Department department); 
+  DepartmentOutputDTO toBaseOutputDTO(Department department); 
 
 11. Añadir a la clase "DepartmentMapper" el siguiente código:
 
   @Named("company")
-  default BaseCompanyOutputDTO companyToBaseCompanyOutputDTO(Department department) {
+  default BaseCompanyOutputDTO companyToBaseOutputDTO(Department department) {
     return CompanyMapper.INSTANCE.toBaseCompanyOutputDTO(department.getCompany());
   }
 ``````

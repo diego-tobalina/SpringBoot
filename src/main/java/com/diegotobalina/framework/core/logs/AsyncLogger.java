@@ -11,18 +11,18 @@ import org.springframework.stereotype.Component;
 @Component
 public class AsyncLogger {
 
-    @Async
-    public void info(String message) {
-        log.info(message);
-    }
+  @Async
+  public void info(String message) {
+    log.info(message);
+  }
 
-    @Async
-    public void warn(String message) {
-        log.warn(message);
-    }
+  @Async
+  public void warn(String message) {
+    log.warn(message);
+  }
 
-    @Async
-    public void error(String message) {
-        log.error(message);
-    }
+  @Async
+  public void error(String message) {
+    log.error(message);
+  }
 }

@@ -4,7 +4,9 @@ import javax.servlet.ReadListener;
 import javax.servlet.ServletInputStream;
 import java.io.ByteArrayInputStream;
 
-/** @author diegotobalina created on 24/06/2020 */
+/**
+ * @author diegotobalina created on 24/06/2020
+ */
 public class BufferedServletInputStream extends ServletInputStream {
 
   private final ByteArrayInputStream bais;

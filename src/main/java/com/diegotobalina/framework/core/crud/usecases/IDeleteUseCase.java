@@ -2,12 +2,12 @@
 
 package com.diegotobalina.framework.core.crud.usecases;
 
-import com.diegotobalina.framework.core.crud.services.ICrudService;
-import com.diegotobalina.framework.core.crud.StaffitEntity;
+import com.diegotobalina.framework.core.crud.BaseEntity;
+import com.diegotobalina.framework.core.crud.services.IBaseService;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface IDeleteUseCase<T extends StaffitEntity> {
-  default T delete(long id, ICrudService<T> service, JpaRepository<T, Long> repository) {
+public interface IDeleteUseCase<T extends BaseEntity> {
+  default T delete(long id, IBaseService<T> service, JpaRepository<T, Long> repository) {
     preLoad(id, service, repository);
     T t = service.findById(id, repository);
     postLoad(t, service, repository);
@@ -16,9 +16,9 @@ public interface IDeleteUseCase<T extends StaffitEntity> {
     return t;
   }
 
-  void preLoad(long id, ICrudService<T> service, JpaRepository<T, Long> repository);
+  void preLoad(long id, IBaseService<T> service, JpaRepository<T, Long> repository);
 
-  void postLoad(T t, ICrudService<T> service, JpaRepository<T, Long> repository);
+  void postLoad(T t, IBaseService<T> service, JpaRepository<T, Long> repository);
 
-  void postDelete(T t, ICrudService<T> service, JpaRepository<T, Long> repository);
+  void postDelete(T t, IBaseService<T> service, JpaRepository<T, Long> repository);
 }

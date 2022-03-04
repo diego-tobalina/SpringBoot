@@ -3,7 +3,7 @@
 package com.diegotobalina.framework.customizable.entities.example.infrastructure.controller.dto.output;
 
 import com.diegotobalina.framework.core.api.response.EntityMetadata;
-import com.diegotobalina.framework.core.crud.StaffitBaseOutputDTO;
+import com.diegotobalina.framework.core.crud.BaseOutputDTO;
 import com.diegotobalina.framework.core.util.ResourcePathBuilder;
 import lombok.Getter;
 import lombok.Setter;
@@ -14,21 +14,21 @@ import java.io.Serializable;
 @Getter
 @Setter
 @ToString
-public class BaseExampleOutputDTO extends StaffitBaseOutputDTO implements Serializable, EntityMetadata {
+public class BaseExampleOutputDTO extends BaseOutputDTO implements Serializable, EntityMetadata {
 
-    protected long id;
-    protected String tenantId;
-    protected String name;
-    protected String description;
-    protected String email;
+  protected long id;
+  protected String tenantId;
+  protected String name;
+  protected String description;
+  protected String email;
 
-    @Override
-    public String getPath() {
-        return ResourcePathBuilder.build(String.format("/examples/%s", this.getId()));
-    }
+  @Override
+  public String getPath() {
+    return ResourcePathBuilder.build(String.format("/examples/%s", this.getId()));
+  }
 
-    @Override
-    public String getTenantId() {
-        return this.tenantId;
-    }
+  @Override
+  public String getTenantId() {
+    return this.tenantId;
+  }
 }
